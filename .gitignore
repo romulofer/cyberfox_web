@@ -29,3 +29,6 @@ vite.config.ts.timestamp-*
 
 # Local agent / editor settings
 .claude/settings.local.json
+
+# Planning docs (local only)
+/tasks
