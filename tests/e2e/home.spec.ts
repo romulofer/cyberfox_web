@@ -82,6 +82,29 @@ test.describe('home: form and live preview', () => {
 		await expect(page.getByTestId('preview')).toContainText('Visão Geral do Projeto');
 	});
 
+	test('broom button clears the form after confirmation', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('Throwaway Project');
+		await expect(page.getByTestId('preview').locator('h1')).toHaveText('Throwaway Project');
+
+		await page.getByTestId('clear-form').click();
+		await expect(page.getByTestId('clear-dialog')).toBeVisible();
+		await page.getByTestId('clear-confirm').click();
+
+		await expect(page.getByTestId('project-name')).toHaveValue('');
+		await expect(page.getByTestId('preview')).not.toContainText('Throwaway Project');
+	});
+
+	test('cancelling the clear dialog keeps the form intact', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('Keep Me');
+
+		await page.getByTestId('clear-form').click();
+		await page.getByRole('button', { name: 'Keep' }).click();
+
+		await expect(page.getByTestId('project-name')).toHaveValue('Keep Me');
+	});
+
 	test('dark mode toggle persists across reload', async ({ page }) => {
 		await page.goto('/');
 		await page.getByTestId('theme-toggle').click();
