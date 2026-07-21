@@ -22,6 +22,16 @@
 <header class="app-header">
 	<a class="brand" href={resolve('/')}>Cyberfox</a>
 	<nav>
+		<button
+			type="button"
+			class="flag"
+			data-testid="language-toggle"
+			title={settings.language === 'en' ? 'Mudar para Português' : 'Switch to English'}
+			aria-label={settings.language === 'en' ? 'Mudar para Português' : 'Switch to English'}
+			onclick={() => settings.toggleLanguage()}
+		>
+			{settings.language === 'en' ? '🇺🇸' : '🇧🇷'}
+		</button>
 		<button type="button" data-testid="theme-toggle" onclick={() => settings.toggleTheme()}>
 			{settings.theme === 'dark' ? '☀' : '☾'}
 		</button>
@@ -52,5 +62,10 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
+	}
+	.flag {
+		font-size: 1.1rem;
+		line-height: 1;
+		padding: 0.3rem 0.5rem;
 	}
 </style>

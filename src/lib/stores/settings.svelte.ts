@@ -44,6 +44,10 @@ export class SettingsStore {
 		this.persist();
 	}
 
+	toggleLanguage() {
+		this.setLanguage(this.language === 'en' ? 'ptBR' : 'en');
+	}
+
 	setTheme(theme: Theme) {
 		this.theme = theme;
 		this.persist();

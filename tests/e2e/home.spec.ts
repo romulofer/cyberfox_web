@@ -70,6 +70,18 @@ test.describe('home — form and live preview', () => {
 		await expect(other.getByTestId('project-name')).toHaveValue('Shared Project');
 	});
 
+	test('header flag toggles language and persists', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('P');
+		await expect(page.getByTestId('preview')).toContainText('Project Overview');
+
+		await page.getByTestId('language-toggle').click();
+		await expect(page.getByTestId('preview')).toContainText('Visão Geral do Projeto');
+
+		await page.reload();
+		await expect(page.getByTestId('preview')).toContainText('Visão Geral do Projeto');
+	});
+
 	test('dark mode toggle persists across reload', async ({ page }) => {
 		await page.goto('/');
 		await page.getByTestId('theme-toggle').click();
