@@ -1,4 +1,4 @@
-# SPEC — cyberfox_web
+# SPEC: cyberfox_web
 
 A web port of **Cyberfox**, the desktop Flutter app for generating markdown context
 files for AI coding agents. Built with SvelteKit + Svelte + TypeScript, running on Bun.
@@ -24,22 +24,22 @@ etc.) and want a fast, structured way to author them instead of writing markdown
 
 ### Core value
 
-- No "generate" button — preview updates in real time as the form changes.
+- No "generate" button, preview updates in real time as the form changes.
 - One data model produces the correct canonical filename per agent.
 - Runs entirely client-side; no account, no backend, no data leaves the browser.
 
 ### Feature parity (must match the Flutter app)
 
-- **Live split-pane preview** — left: form, right: rendered markdown, updates on every keystroke.
+- **Live split-pane preview**: left: form, right: rendered markdown, updates on every keystroke.
 - **7 built-in AI agents**, each with its canonical output filename (table below).
-- **Custom agents** — user adds their own `{ name, filename }` via Settings; persisted.
-- **Tech Stack** table — `category`, `technology`, `versionOrNotes`.
-- **Setup Commands** table — `command` (code-formatted), `description`.
-- **Core Features** — bullet list.
-- **Acceptance Criteria** — bullet list.
-- **What Not To Do** — bullet list.
-- **Documentation References** — `title`, `url`, optional `description`.
-- **Bilingual UI** — English and Português (Brasil), switchable at runtime; persisted.
+- **Custom agents**: user adds their own `{ name, filename }` via Settings; persisted.
+- **Tech Stack** table, `category`, `technology`, `versionOrNotes`.
+- **Setup Commands** table, `command` (code-formatted), `description`.
+- **Core Features**: bullet list.
+- **Acceptance Criteria**: bullet list.
+- **What Not To Do**: bullet list.
+- **Documentation References**: `title`, `url`, optional `description`.
+- **Bilingual UI**: English and Português (Brasil), switchable at runtime; persisted.
 - **Markdown output byte-format** must match `buildProjectTemplate` (see §6 boundary note).
 
 ### Built-in agents
@@ -58,11 +58,11 @@ etc.) and want a fast, structured way to author them instead of writing markdown
 
 - **Save = blob download + copy-to-clipboard.** Download uses the agent's canonical
   filename. A "Copy" button copies the raw markdown.
-- **Persistence via `localStorage`** — language choice and custom agents survive reload.
-- **Shareable URL state** — current form serialized into the URL (query/hash) so a config
+- **Persistence via `localStorage`**: language choice and custom agents survive reload.
+- **Shareable URL state**: current form serialized into the URL (query/hash) so a config
   can be linked/bookmarked.
-- **Dark mode** — light/dark toggle, persisted.
-- **PWA / installable** — offline-capable static app (nice-to-have; deferred if it risks
+- **Dark mode**: light/dark toggle, persisted.
+- **PWA / installable**: offline-capable static app (nice-to-have; deferred if it risks
   parity or GitHub Pages base-path correctness).
 
 ### Deployment
@@ -92,7 +92,7 @@ Bun is the runtime and package manager.
 | `bun run check` | `svelte-check` + TypeScript type checking |
 | `bun run lint` | ESLint + Prettier check |
 | `bun run format` | Prettier write |
-| `bun run test:unit` | Unit tests (Vitest) — generator + stores |
+| `bun run test:unit` | Unit tests (Vitest), generator + stores |
 | `bun run test:e2e` | End-to-end tests (Playwright) |
 | `bun run test` | Run unit + e2e |
 | `docker compose up` | Build and serve the static site self-hosted |
@@ -106,7 +106,7 @@ cyberfox_web/
 ├── src/
 │   ├── lib/
 │   │   ├── core/
-│   │   │   ├── generators/       # markdownGenerator.ts — pure fn, mirrors base_template.dart
+│   │   │   ├── generators/       # markdownGenerator.ts, pure fn, mirrors base_template.dart
 │   │   │   ├── i18n/             # app strings EN / PT-BR + language type
 │   │   │   ├── models/           # ProjectConfig, TechStackEntry, SetupCommand,
 │   │   │   │                     #   DocumentationReference, AiTarget types
@@ -151,7 +151,7 @@ Naming: descriptive artifact names (per acceptance criteria). Component files
 - **Separation.** Models and generator hold zero DOM/Svelte imports; components hold zero
   business logic beyond binding.
 - **Formatting.** Prettier + `prettier-plugin-svelte`; ESLint with the SvelteKit preset.
-- **i18n.** No hardcoded UI strings in components — all through the i18n string tables.
+- **i18n.** No hardcoded UI strings in components, all through the i18n string tables.
 - **Persistence.** localStorage access wrapped in one store module, guarded for SSR/no-window.
 
 ---
@@ -162,11 +162,11 @@ Acceptance criterion (from CLAUDE.md): **must have end-to-end tests.**
 
 ### Unit (Vitest)
 
-- **Generator parity** — golden-file tests asserting `markdownGenerator` output matches the
+- **Generator parity**: golden-file tests asserting `markdownGenerator` output matches the
   Flutter `buildProjectTemplate` byte-for-byte across: empty optional sections, all sections
   populated, code-formatted commands, doc references with/without description, and the
   trailing-whitespace trim.
-- **Stores** — language switch, add/remove custom agent, localStorage read/write, theme.
+- **Stores**: language switch, add/remove custom agent, localStorage read/write, theme.
 
 ### End-to-end (Playwright)
 
@@ -220,6 +220,6 @@ Acceptance criterion (from CLAUDE.md): **must have end-to-end tests.**
 
 ## Open items (deferred, non-blocking)
 
-- Svelte 4 stores vs Svelte 5 runes — decide at scaffold time from the installed version.
-- PWA/offline — implement only after parity + core extras are green.
-- Static server choice for Docker (nginx vs Bun) — decide at Docker task.
+- Svelte 4 stores vs Svelte 5 runes, decide at scaffold time from the installed version.
+- PWA/offline, implement only after parity + core extras are green.
+- Static server choice for Docker (nginx vs Bun), decide at Docker task.

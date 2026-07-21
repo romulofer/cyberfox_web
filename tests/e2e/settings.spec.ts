@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test.describe('settings — language and custom agents', () => {
+test.describe('settings: language and custom agents', () => {
 	test('language switch changes preview heading and persists', async ({ page }) => {
 		await page.goto('/settings');
 		await page.getByLabel('Português (Brasil)').check();

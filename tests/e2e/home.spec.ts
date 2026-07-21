@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
 	});
 });
 
-test.describe('home — form and live preview', () => {
+test.describe('home: form and live preview', () => {
 	test('defaults to Claude Code and previews the project name live', async ({ page }) => {
 		await page.goto('/');
 		await expect(page.getByTestId('agent-select')).toHaveValue('CLAUDE.md');

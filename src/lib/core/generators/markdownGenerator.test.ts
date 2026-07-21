@@ -22,7 +22,7 @@ function baseConfig(overrides: Partial<ProjectConfig> = {}): ProjectConfig {
 	};
 }
 
-describe('generateMarkdown — parity with base_template.dart', () => {
+describe('generateMarkdown: parity with base_template.dart', () => {
 	it('renders name + overview only, no description, no sections', () => {
 		const md = generateMarkdown(baseConfig({ projectName: 'Empty' }), en);
 		expect(md).toBe('# Empty\n\n## Project Overview');

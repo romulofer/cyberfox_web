@@ -9,13 +9,13 @@ export interface AppStrings {
 	copied: string;
 	previewPlaceholder: string;
 
-	// Form — Project section
+	// Form: Project section
 	sectionProject: string;
 	fieldName: string;
 	fieldDescription: string;
 	fieldTargetAi: string;
 
-	// Form — Tech Stack section
+	// Form: Tech Stack section
 	sectionTechStack: string;
 	fieldCategory: string;
 	hintCategory: string;
@@ -24,29 +24,29 @@ export interface AppStrings {
 	fieldVersionNotes: string;
 	hintVersionNotes: string;
 
-	// Form — Setup Commands section
+	// Form: Setup Commands section
 	sectionSetupCommands: string;
 	fieldCommand: string;
 	hintCommand: string;
 	fieldCommandDescription: string;
 	hintCommandDescription: string;
 
-	// Form — Core Features section
+	// Form: Core Features section
 	sectionCoreFeatures: string;
 	fieldFeature: string;
 	hintFeature: string;
 
-	// Form — Acceptance Criteria section
+	// Form: Acceptance Criteria section
 	sectionAcceptanceCriteria: string;
 	fieldCriterion: string;
 	hintCriterion: string;
 
-	// Form — What Not To Do section
+	// Form: What Not To Do section
 	sectionWhatNotToDo: string;
 	fieldProhibition: string;
 	hintProhibition: string;
 
-	// Form — Documentation References section
+	// Form: Documentation References section
 	sectionDocRefs: string;
 	fieldDocTitle: string;
 	fieldDocUrl: string;
@@ -58,7 +58,7 @@ export interface AppStrings {
 	clearDialogConfirm: string;
 	clearDialogCancel: string;
 
-	// Settings page — language
+	// Settings page: language
 	settingsTitle: string;
 	settingsLanguage: string;
 	languagePtBR: string;
@@ -81,7 +81,7 @@ export interface AppStrings {
 	mdWhatNotToDo: string;
 	mdDocumentationReferences: string;
 
-	// Settings page — custom agents
+	// Settings page: custom agents
 	sectionCustomAgents: string;
 	fieldAgentName: string;
 	hintAgentName: string;
