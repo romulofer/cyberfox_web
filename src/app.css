@@ -1,0 +1,91 @@
+:root {
+	--bg: #ffffff;
+	--fg: #1a1a1a;
+	--muted: #6b7280;
+	--border: #d8dce3;
+	--accent: #e8590c;
+	--header-bg: #f7f8fa;
+	--preview-bg: #fbfbfc;
+	--input-bg: #ffffff;
+}
+
+:root[data-theme='dark'] {
+	--bg: #16181d;
+	--fg: #e6e8eb;
+	--muted: #9aa1ab;
+	--border: #2d323b;
+	--accent: #ff922b;
+	--header-bg: #1b1e24;
+	--preview-bg: #1b1e24;
+	--input-bg: #21252c;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family:
+		system-ui,
+		-apple-system,
+		'Segoe UI',
+		Roboto,
+		sans-serif;
+	background: var(--bg);
+	color: var(--fg);
+}
+
+input,
+textarea,
+select {
+	width: 100%;
+	padding: 0.45rem 0.6rem;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--input-bg);
+	color: var(--fg);
+}
+
+button {
+	padding: 0.45rem 0.8rem;
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	background: var(--input-bg);
+	color: var(--fg);
+	cursor: pointer;
+}
+
+button.primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #fff;
+}
+
+a {
+	color: var(--accent);
+}
+
+.rendered :is(h1, h2, h3) {
+	margin-top: 1.2rem;
+}
+
+.rendered table {
+	border-collapse: collapse;
+}
+
+.rendered :is(th, td) {
+	border: 1px solid var(--border);
+	padding: 0.3rem 0.6rem;
+}
+
+.rendered code {
+	background: var(--header-bg);
+	padding: 0.1rem 0.3rem;
+	border-radius: 4px;
+}

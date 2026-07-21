@@ -1,0 +1,13 @@
+.svelte-kit
+build
+node_modules
+bun.lock
+test-results
+playwright-report
+coverage
+
+# Docs and tooling config are authored by hand
+.claude
+CLAUDE.md
+SPEC.md
+tasks
