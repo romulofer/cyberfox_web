@@ -3,5 +3,5 @@ services:
     build: .
     image: cyberfox_web
     ports:
-      - '6666:80'
+      - '8666:80'
     restart: unless-stopped

@@ -73,7 +73,7 @@ bun run dev
 docker compose up --build
 ```
 
-The app is served at <http://localhost:6666>.
+The app is served at <http://localhost:8666>.
 
 ### Deploying to GitHub Pages
 
@@ -156,7 +156,7 @@ bun run dev
 docker compose up --build
 ```
 
-O app fica disponível em <http://localhost:6666>.
+O app fica disponível em <http://localhost:8666>.
 
 ### Deploy no GitHub Pages
 
