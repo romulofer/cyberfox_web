@@ -1,0 +1,7 @@
+services:
+  cyberfox_web:
+    build: .
+    image: cyberfox_web
+    ports:
+      - '8080:80'
+    restart: unless-stopped
