@@ -35,7 +35,15 @@
 		<button type="button" data-testid="theme-toggle" onclick={() => settings.toggleTheme()}>
 			{settings.theme === 'dark' ? '☀' : '☾'}
 		</button>
-		<a href={resolve('/settings')}>{t.settingsTitle}</a>
+		<a
+			class="settings-link"
+			href={resolve('/settings')}
+			data-testid="settings-link"
+			title={t.settingsTitle}
+			aria-label={t.settingsTitle}
+		>
+			⚙
+		</a>
 	</nav>
 </header>
 
@@ -67,5 +75,18 @@
 		font-size: 1.1rem;
 		line-height: 1;
 		padding: 0.3rem 0.5rem;
+	}
+	.settings-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.15rem;
+		line-height: 1;
+		padding: 0.35rem 0.55rem;
+		border: 1px solid var(--border);
+		border-radius: 6px;
+		background: var(--input-bg);
+		color: var(--fg);
+		text-decoration: none;
 	}
 </style>
