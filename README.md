@@ -1,10 +1,14 @@
 [English](#english) · [Português (Brasil)](#português-brasil)
 
+**Live demo:** <https://romulofer.github.io/cyberfox_web/>
+
 ---
 
 # English
 
 ## Cyberfox Web
+
+**[▶ Open the live app](https://romulofer.github.io/cyberfox_web/)**
 
 A web version of [Cyberfox](https://github.com/romulofer/cyberfox) — a tool for
 generating markdown context files for AI coding agents. Built with SvelteKit,
@@ -69,7 +73,7 @@ bun run dev
 docker compose up --build
 ```
 
-The app is served at <http://localhost:8080>.
+The app is served at <http://localhost:6666>.
 
 ### Deploying to GitHub Pages
 
@@ -86,6 +90,8 @@ Enable Pages with the **GitHub Actions** source in the repository settings.
 # Português (Brasil)
 
 ## Cyberfox Web
+
+**[▶ Abrir o app](https://romulofer.github.io/cyberfox_web/)**
 
 Versão web do [Cyberfox](https://github.com/romulofer/cyberfox) — ferramenta para
 gerar arquivos markdown de contexto para agentes de IA. Feita com SvelteKit,
@@ -150,7 +156,7 @@ bun run dev
 docker compose up --build
 ```
 
-O app fica disponível em <http://localhost:8080>.
+O app fica disponível em <http://localhost:6666>.
 
 ### Deploy no GitHub Pages
 

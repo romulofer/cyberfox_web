@@ -48,17 +48,23 @@ Checkboxes track execution of `tasks/plan.md`. 🚩 = human-review checkpoint.
 
 ## Phase 6 — Web extras
 - [x] Dark-mode toggle (persisted) — done in Phase 2/3
-- [ ] Shareable URL state (serialize + hydrate)
-- [ ] PWA/offline (deferred — only if safe)
-- [ ] E2E: URL round-trip
+- [x] Shareable URL state (base64url hash, serialize + hydrate) + 4 unit tests
+- [ ] PWA/offline (deferred — out of scope for v0.1.0)
+- [x] E2E: URL round-trip
 
 ## Phase 7 — Deploy
-- [ ] Dockerfile + docker-compose.yml (nginx vs Bun — decide)
-- [ ] GitHub Actions: install→check→lint→test:unit→test:e2e→build→Pages
-- [ ] Verify base-path on Pages subpath
-- [ ] 🚩 Checkpoint 7: full test + build + Docker + CI reviewed
+- [x] Dockerfile (Bun build → nginx) + docker-compose.yml + nginx.conf
+- [x] GitHub Actions: install→check→lint→test:unit→test:e2e→build→Pages
+- [x] Docker image built + verified serving / and /settings (200)
+- [x] Base path via relative assets + BASE_PATH router base
+- [x] 🚩 Checkpoint 7: full test + build + Docker verified
+
+## Release
+- [x] README (bilingual) + MIT LICENSE
+- [x] Removed scaffold cruft, updated .gitignore
+- [x] Commit + tag v0.1.0 + push + GitHub release
 
 ## Open items (from SPEC)
-- [ ] Svelte 4 stores vs Svelte 5 runes (decide Phase 0)
-- [ ] Docker static server: nginx vs Bun (decide Phase 7)
-- [ ] PWA scope (decide Phase 6)
+- [x] Runes vs stores → Svelte 5 runes (Phase 0)
+- [x] Docker static server → nginx (Phase 7)
+- [ ] PWA scope — deferred, not in v0.1.0
