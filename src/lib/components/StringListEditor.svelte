@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	interface Props {
 		label: string;
 		items: string[];
@@ -8,8 +9,12 @@
 
 	let { label, items = $bindable(), placeholder, addLabel }: Props = $props();
 
-	function add() {
+	let itemInputs = $state<HTMLInputElement[]>([]);
+
+	async function add() {
 		items = [...items, ''];
+		await tick();
+		itemInputs[items.length - 1]?.focus();
 	}
 
 	function remove(index: number) {
@@ -21,7 +26,19 @@
 	<legend>{label}</legend>
 	{#each items as _, i (i)}
 		<div class="row">
-			<input type="text" {placeholder} bind:value={items[i]} aria-label={`${label} ${i + 1}`} />
+			<input
+				type="text"
+				{placeholder}
+				bind:value={items[i]}
+				bind:this={itemInputs[i]}
+				aria-label={`${label} ${i + 1}`}
+				onkeydown={(event) => {
+					if (event.key === 'Enter' && i === items.length - 1) {
+						event.preventDefault();
+						add();
+					}
+				}}
+			/>
 			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">✕</button>
 		</div>
 	{/each}

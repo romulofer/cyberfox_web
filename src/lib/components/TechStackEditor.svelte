@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { TechStackEntry } from '$lib/core/models/types';
 	import type { AppStrings } from '$lib/core/i18n/strings';
 
@@ -9,8 +10,12 @@
 
 	let { items = $bindable(), strings }: Props = $props();
 
-	function add() {
+	let rowInputs = $state<HTMLInputElement[]>([]);
+
+	async function add() {
 		items = [...items, { category: '', technology: '', versionOrNotes: '' }];
+		await tick();
+		rowInputs[items.length - 1]?.focus();
 	}
 
 	function remove(index: number) {
@@ -26,6 +31,7 @@
 				bind:value={items[i].category}
 				placeholder={strings.hintCategory}
 				aria-label={strings.fieldCategory}
+				bind:this={rowInputs[i]}
 			/>
 			<input
 				bind:value={items[i].technology}

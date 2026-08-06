@@ -71,6 +71,33 @@ a {
 	color: var(--accent);
 }
 
+:focus-visible {
+	outline: 3px solid var(--accent);
+	outline-offset: 3px;
+}
+
+fieldset:focus-within {
+	border-color: var(--accent);
+}
+
+.skip-link {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 10;
+	transform: translateY(-200%);
+	padding: 0.5rem 0.75rem;
+	border-radius: 6px;
+	background: var(--accent);
+	color: #fff;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.skip-link:focus {
+	transform: translateY(0);
+}
+
 .rendered :is(h1, h2, h3) {
 	margin-top: 1.2rem;
 }

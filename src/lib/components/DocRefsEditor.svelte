@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { DocumentationReference } from '$lib/core/models/types';
 	import type { AppStrings } from '$lib/core/i18n/strings';
 
@@ -9,8 +10,12 @@
 
 	let { items = $bindable(), strings }: Props = $props();
 
-	function add() {
+	let rowInputs = $state<HTMLInputElement[]>([]);
+
+	async function add() {
 		items = [...items, { title: '', url: '', description: '' }];
+		await tick();
+		rowInputs[items.length - 1]?.focus();
 	}
 
 	function remove(index: number) {
@@ -27,6 +32,7 @@
 					bind:value={items[i].title}
 					placeholder={strings.fieldDocTitle}
 					aria-label={strings.fieldDocTitle}
+					bind:this={rowInputs[i]}
 				/>
 				<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">✕</button
 				>

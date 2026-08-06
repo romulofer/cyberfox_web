@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { tick } from 'svelte';
 	import type { SetupCommand } from '$lib/core/models/types';
 	import type { AppStrings } from '$lib/core/i18n/strings';
 
@@ -9,8 +10,12 @@
 
 	let { items = $bindable(), strings }: Props = $props();
 
-	function add() {
+	let rowInputs = $state<HTMLInputElement[]>([]);
+
+	async function add() {
 		items = [...items, { command: '', description: '' }];
+		await tick();
+		rowInputs[items.length - 1]?.focus();
 	}
 
 	function remove(index: number) {
@@ -26,6 +31,7 @@
 				bind:value={items[i].command}
 				placeholder={strings.hintCommand}
 				aria-label={strings.fieldCommand}
+				bind:this={rowInputs[i]}
 			/>
 			<input
 				bind:value={items[i].description}

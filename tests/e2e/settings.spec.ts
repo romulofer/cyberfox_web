@@ -40,4 +40,13 @@ test.describe('settings: language and custom agents', () => {
 		await page.getByTestId('remove-agent').last().click();
 		await expect(page.locator('code', { hasText: 'TEMP.md' })).toHaveCount(0);
 	});
+
+	test('Enter submits the custom-agent form', async ({ page }) => {
+		await page.goto('/settings');
+		await page.getByTestId('agent-name-input').fill('Keyboard Agent');
+		await page.getByTestId('agent-filename-input').fill('KEYBOARD.md');
+		await page.getByTestId('agent-filename-input').press('Enter');
+
+		await expect(page.locator('code', { hasText: 'KEYBOARD.md' })).toBeVisible();
+	});
 });
