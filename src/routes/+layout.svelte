@@ -17,6 +17,10 @@
 		clearDialog?.close();
 	}
 
+	function skipToContent() {
+		document.getElementById('main-content')?.focus();
+	}
+
 	$effect(() => {
 		document.documentElement.dataset.theme = settings.theme;
 		document.documentElement.lang = settings.language === 'ptBR' ? 'pt-BR' : 'en';
@@ -27,9 +31,13 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+<a class="skip-link" href="#main-content" onclick={skipToContent}
+	>{settings.language === 'ptBR' ? 'Pular para o conteúdo' : 'Skip to content'}</a
+>
+
 <header class="app-header">
 	<a class="brand" href={resolve('/')}>Cyberfox</a>
-	<nav>
+	<nav aria-label={settings.language === 'ptBR' ? 'Navegação principal' : 'Main navigation'}>
 		<button
 			type="button"
 			class="icon-btn"
@@ -72,7 +80,7 @@
 	</nav>
 </header>
 
-<main>
+<main id="main-content" tabindex="-1">
 	{@render children()}
 </main>
 

@@ -85,7 +85,13 @@
 				</li>
 			{/each}
 		</ul>
-		<div class="add-agent">
+		<form
+			class="add-agent"
+			onsubmit={(event) => {
+				event.preventDefault();
+				addAgent();
+			}}
+		>
 			<input
 				bind:value={newName}
 				placeholder={t.hintAgentName}
@@ -98,10 +104,8 @@
 				aria-label={t.fieldAgentFilename}
 				data-testid="agent-filename-input"
 			/>
-			<button type="button" class="primary" data-testid="add-agent" onclick={addAgent}
-				>{t.add}</button
-			>
-		</div>
+			<button type="submit" class="primary" data-testid="add-agent">{t.add}</button>
+		</form>
 	</section>
 </div>
 

@@ -113,4 +113,16 @@ test.describe('home: form and live preview', () => {
 		await page.reload();
 		await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 	});
+
+	test('keyboard users can skip the header and focus newly added rows', async ({ page }) => {
+		await page.goto('/');
+
+		await page.keyboard.press('Tab');
+		await page.keyboard.press('Enter');
+		await expect(page.locator('main')).toBeFocused();
+
+		await page.getByRole('button', { name: '+ Add' }).first().focus();
+		await page.keyboard.press('Enter');
+		await expect(page.getByLabel('Category', { exact: true })).toBeFocused();
+	});
 });
