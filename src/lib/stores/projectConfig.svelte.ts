@@ -3,6 +3,7 @@ import type {
 	AiTarget,
 	DocumentationReference,
 	ProjectConfig,
+	ProjectPhase,
 	SetupCommand,
 	TechStackEntry
 } from '../core/models/types';
@@ -15,6 +16,7 @@ export function emptyConfig(): ProjectConfig {
 		techStack: [],
 		setupCommands: [],
 		coreFeatures: [],
+		phases: [],
 		acceptanceCriteria: [],
 		whatNotToDo: [],
 		documentationReferences: []
@@ -28,6 +30,7 @@ export class ProjectConfigStore {
 	techStack = $state<TechStackEntry[]>([]);
 	setupCommands = $state<SetupCommand[]>([]);
 	coreFeatures = $state<string[]>([]);
+	phases = $state<ProjectPhase[]>([]);
 	acceptanceCriteria = $state<string[]>([]);
 	whatNotToDo = $state<string[]>([]);
 	documentationReferences = $state<DocumentationReference[]>([]);
@@ -40,6 +43,7 @@ export class ProjectConfigStore {
 			techStack: this.techStack,
 			setupCommands: this.setupCommands,
 			coreFeatures: this.coreFeatures,
+			phases: this.phases,
 			acceptanceCriteria: this.acceptanceCriteria,
 			whatNotToDo: this.whatNotToDo,
 			documentationReferences: this.documentationReferences
@@ -53,6 +57,7 @@ export class ProjectConfigStore {
 		this.techStack = config.techStack;
 		this.setupCommands = config.setupCommands;
 		this.coreFeatures = config.coreFeatures;
+		this.phases = config.phases;
 		this.acceptanceCriteria = config.acceptanceCriteria;
 		this.whatNotToDo = config.whatNotToDo;
 		this.documentationReferences = config.documentationReferences;

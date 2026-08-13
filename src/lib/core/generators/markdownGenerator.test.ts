@@ -15,6 +15,7 @@ function baseConfig(overrides: Partial<ProjectConfig> = {}): ProjectConfig {
 		techStack: [],
 		setupCommands: [],
 		coreFeatures: [],
+		phases: [],
 		acceptanceCriteria: [],
 		whatNotToDo: [],
 		documentationReferences: [],
@@ -116,6 +117,49 @@ describe('generateMarkdown: parity with base_template.dart', () => {
 		expect(md).toBe(
 			'# X\n\n## Project Overview\n\n\n## Documentation References\n\n### Ref\n\n[https://ex.com](https://ex.com)'
 		);
+	});
+
+	it('renders numbered phases with description and tasks', () => {
+		const md = generateMarkdown(
+			baseConfig({
+				projectName: 'X',
+				phases: [
+					{ name: 'MVP', description: 'Initial setup.', tasks: ['Set up repo', 'Auth'] },
+					{ name: 'Beta', description: '', tasks: ['Deploy CI'] }
+				]
+			}),
+			en
+		);
+		expect(md).toBe(
+			[
+				'# X',
+				'',
+				'## Project Overview',
+				'',
+				'',
+				'## Project Phases',
+				'',
+				'### Phase 1: MVP',
+				'',
+				'Initial setup.',
+				'',
+				'- Set up repo',
+				'- Auth',
+				'',
+				'### Phase 2: Beta',
+				'',
+				'- Deploy CI'
+			].join('\n')
+		);
+	});
+
+	it('numbers a phase without a name', () => {
+		const md = generateMarkdown(
+			baseConfig({ projectName: 'X', phases: [{ name: '', description: '', tasks: [] }] }),
+			en
+		);
+		expect(md).toContain('### Phase 1');
+		expect(md).not.toContain('Phase 1:');
 	});
 
 	it('uses PT-BR headings when given PT-BR strings', () => {

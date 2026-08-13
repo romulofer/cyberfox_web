@@ -25,13 +25,37 @@ leaves your browser.
 - **Live split-pane preview**: markdown updates as you type, no generate button
 - **7 built-in AI agents**: each with its canonical output filename
 - **Custom agents**: add your own (name + filename) in Settings; persisted
-- **Tech Stack**, **Setup Commands**, **Core Features**, **Acceptance Criteria**,
-  **What Not To Do** and **Documentation References** sections
+- **Tech Stack**, **Setup Commands**, **Core Features**, **Project Phases**,
+  **Acceptance Criteria**, **What Not To Do** and **Documentation References** sections
+- **Project phases**: add as many phases as you want, each with a name,
+  description and task list
+- **Section templates** _(self-hosted / dev only)_: save any section's content as
+  a reusable template and apply it later; applying appends, so you can keep adding
 - **Save**: download with the canonical filename, or copy to clipboard
 - **Shareable URL**: the current form is encoded into the URL to link or bookmark
 - **Bilingual UI**: English and Português (Brasil), switchable at runtime
 - **Dark mode**: light/dark toggle, persisted
 - **Self-hostable**: static site, deploy to GitHub Pages or run via Docker
+
+### Live site vs. self-hosted
+
+The features are identical **except** the **section templates** CRUD, which is
+available only when you run the project yourself (dev server or self-hosted
+Docker build) and is hidden on the public GitHub Pages demo.
+
+The gate is the build-time flag `VITE_TEMPLATES_ENABLED`: templates are enabled
+by default, and the GitHub Pages build sets `VITE_TEMPLATES_ENABLED=false`. To
+disable templates in your own build, set it to `false` too:
+
+```bash
+VITE_TEMPLATES_ENABLED=false bun run build
+```
+
+| Environment              | Templates CRUD |
+| ------------------------ | -------------- |
+| Live site (GitHub Pages) | Hidden         |
+| Dev (`bun run dev`)      | Available      |
+| Self-hosted (Docker)     | Available      |
 
 ### Supported AI agents
 
@@ -109,12 +133,39 @@ sem backend, nenhum dado sai do seu navegador.
 - **7 agentes de IA integrados**: cada um com seu nome de arquivo canônico
 - **Agentes personalizados**: adicione os seus (nome + arquivo) em Configurações
 - Seções de **Tech Stack**, **Comandos de Setup**, **Funcionalidades Principais**,
-  **Critérios de Aceite**, **O Que Não Fazer** e **Documentações de Referência**
+  **Fases do Projeto**, **Critérios de Aceite**, **O Que Não Fazer** e
+  **Documentações de Referência**
+- **Fases do Projeto**: adicione quantas fases quiser, cada uma com nome,
+  descrição e lista de tarefas
+- **Templates de seção** _(apenas self-hosted / dev)_: salve o conteúdo de
+  qualquer seção como template reutilizável e aplique depois; aplicar anexa, então
+  você pode continuar adicionando
 - **Salvar**: baixe com o nome canônico ou copie para a área de transferência
 - **URL compartilhável**: o formulário é codificado na URL para link ou favorito
 - **Interface bilíngue**: Português (Brasil) e English, alternável em tempo real
 - **Modo escuro**: alternância claro/escuro, persistida
 - **Self-hosted**: site estático, deploy no GitHub Pages ou via Docker
+
+### Versão live vs. self-hosted
+
+As funcionalidades são idênticas, **exceto** o CRUD de **templates de seção**, que
+fica disponível apenas ao rodar o projeto por conta própria (servidor de
+desenvolvimento ou build self-hosted com Docker) e fica oculto na demo pública do
+GitHub Pages.
+
+O controle é a flag de build `VITE_TEMPLATES_ENABLED`: os templates ficam ativos
+por padrão, e o build do GitHub Pages define `VITE_TEMPLATES_ENABLED=false`. Para
+desativar os templates no seu próprio build, defina como `false` também:
+
+```bash
+VITE_TEMPLATES_ENABLED=false bun run build
+```
+
+| Ambiente                   | CRUD de templates |
+| -------------------------- | ----------------- |
+| Versão live (GitHub Pages) | Oculto            |
+| Dev (`bun run dev`)        | Disponível        |
+| Self-hosted (Docker)       | Disponível        |
 
 ### Agentes de IA suportados
 

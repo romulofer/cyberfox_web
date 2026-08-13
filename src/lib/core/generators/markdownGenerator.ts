@@ -43,6 +43,28 @@ export function generateMarkdown(config: ProjectConfig, s: AppStrings): string {
 		}
 	}
 
+	if (config.phases.length > 0) {
+		lines.push('');
+		lines.push(`## ${s.mdPhases}`);
+		lines.push('');
+		config.phases.forEach((phase, i) => {
+			if (i > 0) lines.push('');
+			const heading =
+				phase.name.length > 0
+					? `${s.mdPhaseLabel} ${i + 1}: ${phase.name}`
+					: `${s.mdPhaseLabel} ${i + 1}`;
+			lines.push(`### ${heading}`);
+			lines.push('');
+			if (phase.description.length > 0) {
+				lines.push(phase.description);
+				lines.push('');
+			}
+			for (const task of phase.tasks) {
+				lines.push(`- ${task}`);
+			}
+		});
+	}
+
 	if (config.acceptanceCriteria.length > 0) {
 		lines.push('');
 		lines.push(`## ${s.mdAcceptanceCriteria}`);

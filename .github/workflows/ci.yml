@@ -26,6 +26,8 @@ jobs:
       - name: Build for GitHub Pages
         env:
           BASE_PATH: /${{ github.event.repository.name }}
+          # Public live site: hide the section-templates CRUD (self-hosted / dev only).
+          VITE_TEMPLATES_ENABLED: 'false'
         run: bun run build
       - uses: actions/upload-pages-artifact@v3
         with:

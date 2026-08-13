@@ -46,6 +46,25 @@ export interface AppStrings {
 	fieldProhibition: string;
 	hintProhibition: string;
 
+	// Form: Project Phases section
+	sectionPhases: string;
+	fieldPhaseName: string;
+	hintPhaseName: string;
+	fieldPhaseDescription: string;
+	hintPhaseDescription: string;
+	fieldPhaseTask: string;
+	hintPhaseTask: string;
+	addPhase: string;
+
+	// Section templates (self-hosted / dev only)
+	templatesLabel: string;
+	templateSelectPlaceholder: string;
+	templateApply: string;
+	templateNamePlaceholder: string;
+	templateSave: string;
+	templateDelete: string;
+	templateEmpty: string;
+
 	// Form: Documentation References section
 	sectionDocRefs: string;
 	fieldDocTitle: string;
@@ -80,6 +99,8 @@ export interface AppStrings {
 	mdAcceptanceCriteria: string;
 	mdWhatNotToDo: string;
 	mdDocumentationReferences: string;
+	mdPhases: string;
+	mdPhaseLabel: string;
 
 	// Settings page: custom agents
 	sectionCustomAgents: string;
@@ -121,6 +142,21 @@ const ptBR: AppStrings = {
 	sectionWhatNotToDo: 'O Que Não Fazer',
 	fieldProhibition: 'Proibição / Anti-padrão',
 	hintProhibition: 'Nunca commitar secrets',
+	sectionPhases: 'Fases do Projeto',
+	fieldPhaseName: 'Nome da fase',
+	hintPhaseName: 'MVP, Beta, Lançamento…',
+	fieldPhaseDescription: 'Descrição da fase',
+	hintPhaseDescription: 'Objetivo desta fase',
+	fieldPhaseTask: 'Tarefa',
+	hintPhaseTask: 'Configurar CI',
+	addPhase: 'Adicionar fase',
+	templatesLabel: 'Templates',
+	templateSelectPlaceholder: 'Selecione um template',
+	templateApply: 'Aplicar',
+	templateNamePlaceholder: 'Nome do template',
+	templateSave: 'Salvar template',
+	templateDelete: 'Excluir template',
+	templateEmpty: 'Nenhum template salvo',
 	sectionDocRefs: 'Documentações de Referência',
 	fieldDocTitle: 'Título',
 	fieldDocUrl: 'URL',
@@ -148,6 +184,8 @@ const ptBR: AppStrings = {
 	mdAcceptanceCriteria: 'Critérios de Aceite',
 	mdWhatNotToDo: 'O Que Não Fazer',
 	mdDocumentationReferences: 'Documentações de Referência',
+	mdPhases: 'Fases do Projeto',
+	mdPhaseLabel: 'Fase',
 	sectionCustomAgents: 'Agentes Personalizados',
 	fieldAgentName: 'Nome do agente',
 	hintAgentName: 'Meu Agente',
@@ -187,6 +225,21 @@ const en: AppStrings = {
 	sectionWhatNotToDo: 'What Not To Do',
 	fieldProhibition: 'Prohibition / Anti-pattern',
 	hintProhibition: 'Never commit secrets',
+	sectionPhases: 'Project Phases',
+	fieldPhaseName: 'Phase name',
+	hintPhaseName: 'MVP, Beta, Launch…',
+	fieldPhaseDescription: 'Phase description',
+	hintPhaseDescription: 'Goal of this phase',
+	fieldPhaseTask: 'Task',
+	hintPhaseTask: 'Set up CI',
+	addPhase: 'Add phase',
+	templatesLabel: 'Templates',
+	templateSelectPlaceholder: 'Select a template',
+	templateApply: 'Apply',
+	templateNamePlaceholder: 'Template name',
+	templateSave: 'Save template',
+	templateDelete: 'Delete template',
+	templateEmpty: 'No saved templates',
 	sectionDocRefs: 'Documentation References',
 	fieldDocTitle: 'Title',
 	fieldDocUrl: 'URL',
@@ -214,6 +267,8 @@ const en: AppStrings = {
 	mdAcceptanceCriteria: 'Acceptance Criteria',
 	mdWhatNotToDo: 'What Not To Do',
 	mdDocumentationReferences: 'Documentation References',
+	mdPhases: 'Project Phases',
+	mdPhaseLabel: 'Phase',
 	sectionCustomAgents: 'Custom Agents',
 	fieldAgentName: 'Agent name',
 	hintAgentName: 'My Agent',

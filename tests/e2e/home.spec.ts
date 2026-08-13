@@ -125,4 +125,38 @@ test.describe('home: form and live preview', () => {
 		await page.keyboard.press('Enter');
 		await expect(page.getByLabel('Category', { exact: true })).toBeFocused();
 	});
+
+	test('adding a project phase renders a numbered heading in the preview', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('P');
+
+		const phases = page.locator('fieldset').filter({ hasText: 'Project Phases' });
+		await phases.getByRole('button', { name: '+ Add phase' }).click();
+		await phases.getByLabel('Phase name').fill('MVP');
+		await phases.getByLabel('Phase description').fill('Initial setup.');
+
+		const preview = page.getByTestId('preview');
+		await expect(preview).toContainText('Project Phases');
+		await expect(preview).toContainText('Phase 1: MVP');
+		await expect(preview).toContainText('Initial setup.');
+	});
+});
+
+test.describe('home: section templates (self-hosted / dev only)', () => {
+	test('saving and applying a template appends its content to the section', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('P');
+
+		const core = page.locator('fieldset').filter({ hasText: 'Core Features' });
+		await core.getByRole('button', { name: '+ Add' }).click();
+		await core.getByLabel('Core Features 1').fill('Auth');
+
+		const bar = page.getByTestId('templates-coreFeatures');
+		await bar.getByPlaceholder('Template name').fill('Basics');
+		await bar.getByTestId('template-save').click();
+
+		// Saving auto-selects the new template; applying appends its content.
+		await bar.getByTestId('template-apply').click();
+		await expect(core.getByLabel('Core Features 2')).toHaveValue('Auth');
+	});
 });
