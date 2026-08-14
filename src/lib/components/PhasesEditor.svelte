@@ -46,7 +46,7 @@
 					type="button"
 					class="remove"
 					onclick={() => remove(i)}
-					aria-label={`${strings.sectionPhases} ${i + 1}`}>✕</button
+					aria-label={`${strings.sectionPhases} ${i + 1}`}>🗑️</button
 				>
 			</div>
 			<textarea
@@ -66,17 +66,17 @@
 							type="button"
 							class="remove"
 							onclick={() => removeTask(i, j)}
-							aria-label="Remove">✕</button
+							aria-label="Remove">🗑️</button
 						>
 					</div>
 				{/each}
 				<button type="button" class="add-task" onclick={() => addTask(i)}
-					>+ {strings.fieldPhaseTask}</button
+					>➕ {strings.fieldPhaseTask}</button
 				>
 			</div>
 		</div>
 	{/each}
-	<button type="button" class="add" onclick={add}>+ {strings.addPhase}</button>
+	<button type="button" class="add" onclick={add}>➕ {strings.addPhase}</button>
 </fieldset>
 
 <style>

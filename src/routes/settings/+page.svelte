@@ -79,7 +79,7 @@
 							data-testid="remove-agent"
 							onclick={() => settings.removeCustomAgent(agent)}
 						>
-							✕
+							🗑️
 						</button>
 					{/if}
 				</li>
@@ -104,7 +104,7 @@
 				aria-label={t.fieldAgentFilename}
 				data-testid="agent-filename-input"
 			/>
-			<button type="submit" class="primary" data-testid="add-agent">{t.add}</button>
+			<button type="submit" class="primary" data-testid="add-agent">➕ {t.add}</button>
 		</form>
 	</section>
 </div>

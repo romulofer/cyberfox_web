@@ -25,10 +25,10 @@
 
 <div class="toolbar">
 	<button type="button" class="primary" data-testid="download" onclick={save}>
-		{strings.saveFileLabel(filename)}
+		💾 {strings.saveFileLabel(filename)}
 	</button>
 	<button type="button" data-testid="copy" onclick={copy}>
-		{copied ? strings.copied : strings.copy}
+		{copied ? `✅ ${strings.copied}` : `📋 ${strings.copy}`}
 	</button>
 </div>
 

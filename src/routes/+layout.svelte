@@ -89,10 +89,10 @@
 	<p>{t.clearDialogContent}</p>
 	<div class="dialog-actions">
 		<button type="button" onclick={() => clearDialog?.close()}>
-			{t.clearDialogCancel}
+			↩️ {t.clearDialogCancel}
 		</button>
 		<button type="button" class="danger" data-testid="clear-confirm" onclick={clearForm}>
-			{t.clearDialogConfirm}
+			🧹 {t.clearDialogConfirm}
 		</button>
 	</div>
 </dialog>

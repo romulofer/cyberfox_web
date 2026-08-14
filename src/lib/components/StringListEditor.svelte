@@ -39,10 +39,10 @@
 					}
 				}}
 			/>
-			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">✕</button>
+			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">🗑️</button>
 		</div>
 	{/each}
-	<button type="button" class="add" onclick={add}>+ {addLabel}</button>
+	<button type="button" class="add" onclick={add}>➕ {addLabel}</button>
 </fieldset>
 
 <style>

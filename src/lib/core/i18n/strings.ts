@@ -58,12 +58,13 @@ export interface AppStrings {
 
 	// Section templates (self-hosted / dev only)
 	templatesLabel: string;
-	templateSelectPlaceholder: string;
 	templateApply: string;
 	templateNamePlaceholder: string;
 	templateSave: string;
 	templateDelete: string;
 	templateEmpty: string;
+	templateClose: string;
+	templateOpen: string;
 
 	// Form: Documentation References section
 	sectionDocRefs: string;
@@ -151,12 +152,13 @@ const ptBR: AppStrings = {
 	hintPhaseTask: 'Configurar CI',
 	addPhase: 'Adicionar fase',
 	templatesLabel: 'Templates',
-	templateSelectPlaceholder: 'Selecione um template',
 	templateApply: 'Aplicar',
 	templateNamePlaceholder: 'Nome do template',
 	templateSave: 'Salvar template',
 	templateDelete: 'Excluir template',
 	templateEmpty: 'Nenhum template salvo',
+	templateClose: 'Fechar',
+	templateOpen: 'Templates',
 	sectionDocRefs: 'Documentações de Referência',
 	fieldDocTitle: 'Título',
 	fieldDocUrl: 'URL',
@@ -234,12 +236,13 @@ const en: AppStrings = {
 	hintPhaseTask: 'Set up CI',
 	addPhase: 'Add phase',
 	templatesLabel: 'Templates',
-	templateSelectPlaceholder: 'Select a template',
 	templateApply: 'Apply',
 	templateNamePlaceholder: 'Template name',
 	templateSave: 'Save template',
 	templateDelete: 'Delete template',
 	templateEmpty: 'No saved templates',
+	templateClose: 'Close',
+	templateOpen: 'Templates',
 	sectionDocRefs: 'Documentation References',
 	fieldDocTitle: 'Title',
 	fieldDocUrl: 'URL',

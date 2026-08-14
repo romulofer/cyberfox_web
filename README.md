@@ -1,113 +1,6 @@
-[English](#english) · [Português (Brasil)](#português-brasil)
+[Português (Brasil)](#português-brasil) · [English](#english)
 
-**Live demo:** <https://romulofer.github.io/cyberfox_web/>
-
----
-
-# English
-
-## Cyberfox Web
-
-**[▶ Open the live app](https://romulofer.github.io/cyberfox_web/)**
-
-A web version of [Cyberfox](https://github.com/romulofer/cyberfox), a tool for
-generating markdown context files for AI coding agents. Built with SvelteKit,
-Svelte and TypeScript on Bun.
-
-Instead of writing project context files by hand for each AI tool, Cyberfox Web
-lets you fill in a structured form and preview the generated markdown in real
-time. Download the file with the exact name each agent expects, or copy it to
-the clipboard. Everything runs client-side, no account, no backend, no data
-leaves your browser.
-
-### Features
-
-- **Live split-pane preview**: markdown updates as you type, no generate button
-- **7 built-in AI agents**: each with its canonical output filename
-- **Custom agents**: add your own (name + filename) in Settings; persisted
-- **Tech Stack**, **Setup Commands**, **Core Features**, **Project Phases**,
-  **Acceptance Criteria**, **What Not To Do** and **Documentation References** sections
-- **Project phases**: add as many phases as you want, each with a name,
-  description and task list
-- **Section templates** _(self-hosted / dev only)_: save any section's content as
-  a reusable template and apply it later; applying appends, so you can keep adding
-- **Save**: download with the canonical filename, or copy to clipboard
-- **Shareable URL**: the current form is encoded into the URL to link or bookmark
-- **Bilingual UI**: English and Português (Brasil), switchable at runtime
-- **Dark mode**: light/dark toggle, persisted
-- **Self-hostable**: static site, deploy to GitHub Pages or run via Docker
-
-### Live site vs. self-hosted
-
-The features are identical **except** the **section templates** CRUD, which is
-available only when you run the project yourself (dev server or self-hosted
-Docker build) and is hidden on the public GitHub Pages demo.
-
-The gate is the build-time flag `VITE_TEMPLATES_ENABLED`: templates are enabled
-by default, and the GitHub Pages build sets `VITE_TEMPLATES_ENABLED=false`. To
-disable templates in your own build, set it to `false` too:
-
-```bash
-VITE_TEMPLATES_ENABLED=false bun run build
-```
-
-| Environment              | Templates CRUD |
-| ------------------------ | -------------- |
-| Live site (GitHub Pages) | Hidden         |
-| Dev (`bun run dev`)      | Available      |
-| Self-hosted (Docker)     | Available      |
-
-### Supported AI agents
-
-| Agent          | Output filename           |
-| -------------- | ------------------------- |
-| Claude Code    | `CLAUDE.md`               |
-| Cursor         | `.cursorrules`            |
-| Windsurf       | `.windsurfrules`          |
-| Cline          | `.clinerules`             |
-| GitHub Copilot | `copilot-instructions.md` |
-| Aider          | `CONVENTIONS.md`          |
-| Devin          | `AGENTS.md`               |
-
-### Getting started
-
-Requires [Bun](https://bun.sh).
-
-```bash
-bun install
-bun run dev
-```
-
-### Scripts
-
-| Command             | Description                                    |
-| ------------------- | ---------------------------------------------- |
-| `bun run dev`       | Start the dev server with HMR                  |
-| `bun run build`     | Produce the static production build (`build/`) |
-| `bun run preview`   | Serve the production build locally             |
-| `bun run check`     | Type-check with `svelte-check`                 |
-| `bun run lint`      | Prettier + ESLint                              |
-| `bun run test:unit` | Unit tests (Vitest)                            |
-| `bun run test:e2e`  | End-to-end tests (Playwright)                  |
-| `bun run test`      | Unit + end-to-end                              |
-
-### Self-hosting with Docker
-
-```bash
-docker compose up --build
-```
-
-The app is served at <http://localhost:8666>.
-
-### Deploying to GitHub Pages
-
-Pushing to `main` runs the CI workflow (`.github/workflows/ci.yml`): it verifies,
-tests, builds with the repository name as the base path, and publishes to Pages.
-Enable Pages with the **GitHub Actions** source in the repository settings.
-
-### License
-
-[MIT](LICENSE)
+**Demo online:** <https://romulofer.github.io/cyberfox_web/>
 
 ---
 
@@ -216,5 +109,112 @@ verifica, testa, faz o build usando o nome do repositório como base path e publ
 no Pages. Ative o Pages com a fonte **GitHub Actions** nas configurações do repositório.
 
 ### Licença
+
+[MIT](LICENSE)
+
+---
+
+# English
+
+## Cyberfox Web
+
+**[▶ Open the live app](https://romulofer.github.io/cyberfox_web/)**
+
+A web version of [Cyberfox](https://github.com/romulofer/cyberfox), a tool for
+generating markdown context files for AI coding agents. Built with SvelteKit,
+Svelte and TypeScript on Bun.
+
+Instead of writing project context files by hand for each AI tool, Cyberfox Web
+lets you fill in a structured form and preview the generated markdown in real
+time. Download the file with the exact name each agent expects, or copy it to
+the clipboard. Everything runs client-side, no account, no backend, no data
+leaves your browser.
+
+### Features
+
+- **Live split-pane preview**: markdown updates as you type, no generate button
+- **7 built-in AI agents**: each with its canonical output filename
+- **Custom agents**: add your own (name + filename) in Settings; persisted
+- **Tech Stack**, **Setup Commands**, **Core Features**, **Project Phases**,
+  **Acceptance Criteria**, **What Not To Do** and **Documentation References** sections
+- **Project phases**: add as many phases as you want, each with a name,
+  description and task list
+- **Section templates** _(self-hosted / dev only)_: save any section's content as
+  a reusable template and apply it later; applying appends, so you can keep adding
+- **Save**: download with the canonical filename, or copy to clipboard
+- **Shareable URL**: the current form is encoded into the URL to link or bookmark
+- **Bilingual UI**: English and Português (Brasil), switchable at runtime
+- **Dark mode**: light/dark toggle, persisted
+- **Self-hostable**: static site, deploy to GitHub Pages or run via Docker
+
+### Live site vs. self-hosted
+
+The features are identical **except** the **section templates** CRUD, which is
+available only when you run the project yourself (dev server or self-hosted
+Docker build) and is hidden on the public GitHub Pages demo.
+
+The gate is the build-time flag `VITE_TEMPLATES_ENABLED`: templates are enabled
+by default, and the GitHub Pages build sets `VITE_TEMPLATES_ENABLED=false`. To
+disable templates in your own build, set it to `false` too:
+
+```bash
+VITE_TEMPLATES_ENABLED=false bun run build
+```
+
+| Environment              | Templates CRUD |
+| ------------------------ | -------------- |
+| Live site (GitHub Pages) | Hidden         |
+| Dev (`bun run dev`)      | Available      |
+| Self-hosted (Docker)     | Available      |
+
+### Supported AI agents
+
+| Agent          | Output filename           |
+| -------------- | ------------------------- |
+| Claude Code    | `CLAUDE.md`               |
+| Cursor         | `.cursorrules`            |
+| Windsurf       | `.windsurfrules`          |
+| Cline          | `.clinerules`             |
+| GitHub Copilot | `copilot-instructions.md` |
+| Aider          | `CONVENTIONS.md`          |
+| Devin          | `AGENTS.md`               |
+
+### Getting started
+
+Requires [Bun](https://bun.sh).
+
+```bash
+bun install
+bun run dev
+```
+
+### Scripts
+
+| Command             | Description                                    |
+| ------------------- | ---------------------------------------------- |
+| `bun run dev`       | Start the dev server with HMR                  |
+| `bun run build`     | Produce the static production build (`build/`) |
+| `bun run preview`   | Serve the production build locally             |
+| `bun run check`     | Type-check with `svelte-check`                 |
+| `bun run lint`      | Prettier + ESLint                              |
+| `bun run test:unit` | Unit tests (Vitest)                            |
+| `bun run test:e2e`  | End-to-end tests (Playwright)                  |
+| `bun run test`      | Unit + end-to-end                              |
+
+### Self-hosting with Docker
+
+```bash
+docker compose up --build
+```
+
+The app is served at <http://localhost:8666>.
+
+### Deploying to GitHub Pages
+
+Pushing to `main` runs the CI workflow (`.github/workflows/ci.yml`): it verifies,
+tests, builds with the repository name as the base path, and publishes to Pages.
+Enable Pages with the **GitHub Actions** source in the repository settings.
+
+### License
 
 [MIT](LICENSE)

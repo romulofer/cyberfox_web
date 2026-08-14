@@ -80,17 +80,20 @@
 			{strings.fieldName}
 			<input bind:value={projectConfig.projectName} data-testid="project-name" />
 		</label>
-		<label>
+		<label class="tight">
 			{strings.fieldDescription}
 			<textarea bind:value={projectConfig.description} rows="3"></textarea>
 		</label>
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="description"
-				current={projectConfig.description}
-				onApply={applyDescription}
-				{strings}
-			/>
+			<div class="desc-templates">
+				<SectionTemplates
+					section="description"
+					title={strings.fieldDescription}
+					current={projectConfig.description}
+					onApply={applyDescription}
+					{strings}
+				/>
+			</div>
 		{/if}
 		<label>
 			{strings.fieldTargetAi}
@@ -106,103 +109,130 @@
 		</label>
 	</fieldset>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="techStack"
-			current={projectConfig.techStack}
-			onApply={applyTechStack}
-			{strings}
-		/>
-	{/if}
-	<TechStackEditor bind:items={projectConfig.techStack} {strings} />
+	<div class="section">
+		<TechStackEditor bind:items={projectConfig.techStack} {strings} />
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="techStack"
+				title={strings.sectionTechStack}
+				current={projectConfig.techStack}
+				onApply={applyTechStack}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="setupCommands"
-			current={projectConfig.setupCommands}
-			onApply={applySetupCommands}
-			{strings}
-		/>
-	{/if}
-	<SetupCommandsEditor bind:items={projectConfig.setupCommands} {strings} />
+	<div class="section">
+		<SetupCommandsEditor bind:items={projectConfig.setupCommands} {strings} />
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="setupCommands"
+				title={strings.sectionSetupCommands}
+				current={projectConfig.setupCommands}
+				onApply={applySetupCommands}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="coreFeatures"
-			current={projectConfig.coreFeatures}
-			onApply={applyCoreFeatures}
-			{strings}
+	<div class="section">
+		<StringListEditor
+			label={strings.sectionCoreFeatures}
+			bind:items={projectConfig.coreFeatures}
+			placeholder={strings.hintFeature}
+			addLabel={strings.add}
 		/>
-	{/if}
-	<StringListEditor
-		label={strings.sectionCoreFeatures}
-		bind:items={projectConfig.coreFeatures}
-		placeholder={strings.hintFeature}
-		addLabel={strings.add}
-	/>
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="coreFeatures"
+				title={strings.sectionCoreFeatures}
+				current={projectConfig.coreFeatures}
+				onApply={applyCoreFeatures}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="phases"
-			current={projectConfig.phases}
-			onApply={applyPhases}
-			{strings}
-		/>
-	{/if}
-	<PhasesEditor bind:items={projectConfig.phases} {strings} />
+	<div class="section">
+		<PhasesEditor bind:items={projectConfig.phases} {strings} />
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="phases"
+				title={strings.sectionPhases}
+				current={projectConfig.phases}
+				onApply={applyPhases}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="acceptanceCriteria"
-			current={projectConfig.acceptanceCriteria}
-			onApply={applyAcceptanceCriteria}
-			{strings}
+	<div class="section">
+		<StringListEditor
+			label={strings.sectionAcceptanceCriteria}
+			bind:items={projectConfig.acceptanceCriteria}
+			placeholder={strings.hintCriterion}
+			addLabel={strings.add}
 		/>
-	{/if}
-	<StringListEditor
-		label={strings.sectionAcceptanceCriteria}
-		bind:items={projectConfig.acceptanceCriteria}
-		placeholder={strings.hintCriterion}
-		addLabel={strings.add}
-	/>
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="acceptanceCriteria"
+				title={strings.sectionAcceptanceCriteria}
+				current={projectConfig.acceptanceCriteria}
+				onApply={applyAcceptanceCriteria}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="whatNotToDo"
-			current={projectConfig.whatNotToDo}
-			onApply={applyWhatNotToDo}
-			{strings}
+	<div class="section">
+		<StringListEditor
+			label={strings.sectionWhatNotToDo}
+			bind:items={projectConfig.whatNotToDo}
+			placeholder={strings.hintProhibition}
+			addLabel={strings.add}
 		/>
-	{/if}
-	<StringListEditor
-		label={strings.sectionWhatNotToDo}
-		bind:items={projectConfig.whatNotToDo}
-		placeholder={strings.hintProhibition}
-		addLabel={strings.add}
-	/>
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="whatNotToDo"
+				title={strings.sectionWhatNotToDo}
+				current={projectConfig.whatNotToDo}
+				onApply={applyWhatNotToDo}
+				{strings}
+			/>
+		{/if}
+	</div>
 
-	{#if templatesEnabled}
-		<SectionTemplates
-			section="documentationReferences"
-			current={projectConfig.documentationReferences}
-			onApply={applyDocRefs}
-			{strings}
-		/>
-	{/if}
-	<DocRefsEditor bind:items={projectConfig.documentationReferences} {strings} />
+	<div class="section">
+		<DocRefsEditor bind:items={projectConfig.documentationReferences} {strings} />
+		{#if templatesEnabled}
+			<SectionTemplates
+				section="documentationReferences"
+				title={strings.sectionDocRefs}
+				current={projectConfig.documentationReferences}
+				onApply={applyDocRefs}
+				{strings}
+			/>
+		{/if}
+	</div>
 </form>
 
 <style>
 	.form {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 1.25rem;
 		padding: 1.5rem;
+	}
+	/* Each section groups its editor with the "Templates" button below it. */
+	.section {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
 	}
 	fieldset {
 		border: 1px solid var(--border);
 		border-radius: 8px;
-		padding: 0.75rem 1rem 1rem;
+		padding: 0.9rem 1rem 1rem;
 		margin: 0;
 	}
 	legend {
@@ -212,16 +242,23 @@
 	label {
 		display: flex;
 		flex-direction: column;
-		gap: 0.3rem;
-		margin-bottom: 0.6rem;
+		gap: 0.35rem;
+		margin-bottom: 0.75rem;
 		font-weight: 500;
+	}
+	fieldset > label:last-child {
+		margin-bottom: 0;
+	}
+	/* Description sits directly above its Templates button; drop the gap between. */
+	label.tight {
+		margin-bottom: 0.4rem;
+	}
+	.desc-templates {
+		margin-bottom: 0.75rem;
 	}
 	input,
 	textarea,
 	select {
 		font: inherit;
-	}
-	.form :global(.templates) {
-		margin-bottom: -0.5rem;
 	}
 </style>

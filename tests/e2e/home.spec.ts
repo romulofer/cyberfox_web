@@ -26,7 +26,7 @@ test.describe('home: form and live preview', () => {
 		await page.goto('/');
 		await page.getByTestId('project-name').fill('P');
 
-		await page.getByRole('button', { name: '+ Add' }).first().click();
+		await page.getByRole('button', { name: '➕ Add' }).first().click();
 		await page.getByLabel('Category', { exact: true }).fill('Frontend');
 		await page.getByLabel('Technology', { exact: true }).fill('Svelte');
 
@@ -121,7 +121,7 @@ test.describe('home: form and live preview', () => {
 		await page.keyboard.press('Enter');
 		await expect(page.locator('main')).toBeFocused();
 
-		await page.getByRole('button', { name: '+ Add' }).first().focus();
+		await page.getByRole('button', { name: '➕ Add' }).first().focus();
 		await page.keyboard.press('Enter');
 		await expect(page.getByLabel('Category', { exact: true })).toBeFocused();
 	});
@@ -131,7 +131,7 @@ test.describe('home: form and live preview', () => {
 		await page.getByTestId('project-name').fill('P');
 
 		const phases = page.locator('fieldset').filter({ hasText: 'Project Phases' });
-		await phases.getByRole('button', { name: '+ Add phase' }).click();
+		await phases.getByRole('button', { name: '➕ Add phase' }).click();
 		await phases.getByLabel('Phase name').fill('MVP');
 		await phases.getByLabel('Phase description').fill('Initial setup.');
 
@@ -148,15 +148,97 @@ test.describe('home: section templates (self-hosted / dev only)', () => {
 		await page.getByTestId('project-name').fill('P');
 
 		const core = page.locator('fieldset').filter({ hasText: 'Core Features' });
-		await core.getByRole('button', { name: '+ Add' }).click();
+		await core.getByRole('button', { name: '➕ Add' }).click();
 		await core.getByLabel('Core Features 1').fill('Auth');
 
-		const bar = page.getByTestId('templates-coreFeatures');
-		await bar.getByPlaceholder('Template name').fill('Basics');
-		await bar.getByTestId('template-save').click();
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await expect(dialog).toBeVisible();
+		await dialog.getByPlaceholder('Template name').fill('Basics');
+		await dialog.getByTestId('template-save').click();
 
-		// Saving auto-selects the new template; applying appends its content.
-		await bar.getByTestId('template-apply').click();
+		// Applying appends the template content, then closes the modal.
+		await dialog.getByTestId('template-apply').click();
+		await expect(dialog).not.toBeVisible();
 		await expect(core.getByLabel('Core Features 2')).toHaveValue('Auth');
+	});
+
+	test('opening the modal with no saved templates shows the empty state', async ({ page }) => {
+		await page.goto('/');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await expect(dialog).toBeVisible();
+		await expect(dialog.getByText('No saved templates')).toBeVisible();
+	});
+
+	test('pressing Enter in the name field saves the template', async ({ page }) => {
+		await page.goto('/');
+
+		const core = page.locator('fieldset').filter({ hasText: 'Core Features' });
+		await core.getByRole('button', { name: '➕ Add' }).click();
+		await core.getByLabel('Core Features 1').fill('Auth');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		const name = dialog.getByPlaceholder('Template name');
+		await name.fill('Basics');
+		await name.press('Enter');
+
+		// The saved template now appears in the list and can be applied.
+		await expect(dialog.getByText('Basics')).toBeVisible();
+		await expect(name).toHaveValue('');
+	});
+
+	test('the Close button dismisses the modal without applying', async ({ page }) => {
+		await page.goto('/');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await expect(dialog).toBeVisible();
+
+		await dialog.locator('footer').getByRole('button', { name: 'Close' }).click();
+		await expect(dialog).not.toBeVisible();
+	});
+
+	test('pressing Escape closes the modal', async ({ page }) => {
+		await page.goto('/');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await expect(dialog).toBeVisible();
+
+		await page.keyboard.press('Escape');
+		await expect(dialog).not.toBeVisible();
+	});
+
+	test('clicking the backdrop closes the modal', async ({ page }) => {
+		await page.goto('/');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await expect(dialog).toBeVisible();
+
+		// The backdrop click registers on the dialog element itself.
+		await page.mouse.click(5, 5);
+		await expect(dialog).not.toBeVisible();
+	});
+
+	test('a saved template can be deleted from the modal list', async ({ page }) => {
+		await page.goto('/');
+
+		const core = page.locator('fieldset').filter({ hasText: 'Core Features' });
+		await core.getByRole('button', { name: '➕ Add' }).click();
+		await core.getByLabel('Core Features 1').fill('Auth');
+
+		await page.getByTestId('templates-open-coreFeatures').click();
+		const dialog = page.getByTestId('templates-dialog-coreFeatures');
+		await dialog.getByPlaceholder('Template name').fill('Basics');
+		await dialog.getByTestId('template-save').click();
+		await expect(dialog.getByText('Basics')).toBeVisible();
+
+		await dialog.getByRole('button', { name: 'Delete template' }).click();
+		await expect(dialog.getByText('Basics')).not.toBeVisible();
+		await expect(dialog.getByText('No saved templates')).toBeVisible();
 	});
 });

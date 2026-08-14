@@ -38,10 +38,10 @@
 				placeholder={strings.hintCommandDescription}
 				aria-label={strings.fieldCommandDescription}
 			/>
-			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">✕</button>
+			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">🗑️</button>
 		</div>
 	{/each}
-	<button type="button" class="add" onclick={add}>+ {strings.add}</button>
+	<button type="button" class="add" onclick={add}>➕ {strings.add}</button>
 </fieldset>
 
 <style>
