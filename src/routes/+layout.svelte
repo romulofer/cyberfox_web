@@ -4,6 +4,7 @@
 	import { settings } from '$lib/stores/settings.svelte';
 	import { projectConfig } from '$lib/stores/projectConfig.svelte';
 	import { strings } from '$lib/core/i18n/strings';
+	import { templatesEnabled } from '$lib/core/env';
 	import '../app.css';
 
 	let { children } = $props();
@@ -68,6 +69,17 @@
 		>
 			{settings.theme === 'dark' ? '☀' : '☾'}
 		</button>
+		{#if templatesEnabled}
+			<a
+				class="icon-btn"
+				href={resolve('/templates')}
+				data-testid="templates-link"
+				title={t.templatesNav}
+				aria-label={t.templatesNav}
+			>
+				🗂️
+			</a>
+		{/if}
 		<a
 			class="icon-btn"
 			href={resolve('/settings')}

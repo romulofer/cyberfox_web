@@ -1,0 +1,9 @@
+# Templates persistence API. No npm deps — runs directly on Bun built-ins.
+FROM oven/bun:1
+WORKDIR /app
+COPY server ./server
+ENV DATA_DIR=/data
+ENV PORT=8787
+EXPOSE 8787
+# The /data volume (mounted by docker-compose) holds templates.json.
+CMD ["bun", "run", "server/index.ts"]

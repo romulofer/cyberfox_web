@@ -19,6 +19,13 @@ export default defineConfig({
 			paths: { base }
 		})
 	],
+	// Dev only: forward template API calls to the local backend (bun run server).
+	// In production nginx proxies /api; on GitHub Pages the feature is disabled.
+	server: {
+		proxy: {
+			'/api': 'http://localhost:8787'
+		}
+	},
 	test: {
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.ts', 'tests/unit/**/*.{test,spec}.ts'],

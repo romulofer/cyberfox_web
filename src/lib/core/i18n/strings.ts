@@ -65,6 +65,14 @@ export interface AppStrings {
 	templateEmpty: string;
 	templateClose: string;
 	templateOpen: string;
+	templatesNav: string;
+	templatesManageTitle: string;
+	templatesManageIntro: string;
+	templateNew: string;
+	templateEdit: string;
+	templateSection: string;
+	templateCancel: string;
+	templateApplyLabel: string;
 
 	// Form: Documentation References section
 	sectionDocRefs: string;
@@ -159,6 +167,15 @@ const ptBR: AppStrings = {
 	templateEmpty: 'Nenhum template salvo',
 	templateClose: 'Fechar',
 	templateOpen: 'Templates',
+	templatesNav: 'Templates',
+	templatesManageTitle: 'Gerenciar Templates',
+	templatesManageIntro:
+		'Crie, edite e apague templates de seção reutilizáveis. Aplique-os no formulário do projeto.',
+	templateNew: 'Novo template',
+	templateEdit: 'Editar',
+	templateSection: 'Seção',
+	templateCancel: 'Cancelar',
+	templateApplyLabel: 'Aplicar template',
 	sectionDocRefs: 'Documentações de Referência',
 	fieldDocTitle: 'Título',
 	fieldDocUrl: 'URL',
@@ -243,6 +260,15 @@ const en: AppStrings = {
 	templateEmpty: 'No saved templates',
 	templateClose: 'Close',
 	templateOpen: 'Templates',
+	templatesNav: 'Templates',
+	templatesManageTitle: 'Manage Templates',
+	templatesManageIntro:
+		'Create, edit and delete reusable section templates. Apply them from the project form.',
+	templateNew: 'New template',
+	templateEdit: 'Edit',
+	templateSection: 'Section',
+	templateCancel: 'Cancel',
+	templateApplyLabel: 'Apply template',
 	sectionDocRefs: 'Documentation References',
 	fieldDocTitle: 'Title',
 	fieldDocUrl: 'URL',

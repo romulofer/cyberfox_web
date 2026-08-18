@@ -1,7 +1,24 @@
 services:
-  cyberfox_web:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: cyberfox_web_api
+    environment:
+      DATA_DIR: /data
+      PORT: '8787'
+    volumes:
+      - templates_data:/data
+    restart: unless-stopped
+
+  web:
     build: .
     image: cyberfox_web
+    depends_on:
+      - api
     ports:
       - '8666:80'
     restart: unless-stopped
+
+volumes:
+  templates_data:

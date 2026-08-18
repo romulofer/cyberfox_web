@@ -15,7 +15,7 @@
 	import SetupCommandsEditor from './SetupCommandsEditor.svelte';
 	import DocRefsEditor from './DocRefsEditor.svelte';
 	import PhasesEditor from './PhasesEditor.svelte';
-	import SectionTemplates from './SectionTemplates.svelte';
+	import ApplyTemplate from './ApplyTemplate.svelte';
 
 	interface Props {
 		strings: AppStrings;
@@ -86,13 +86,7 @@
 		</label>
 		{#if templatesEnabled}
 			<div class="desc-templates">
-				<SectionTemplates
-					section="description"
-					title={strings.fieldDescription}
-					current={projectConfig.description}
-					onApply={applyDescription}
-					{strings}
-				/>
+				<ApplyTemplate section="description" onApply={applyDescription} {strings} />
 			</div>
 		{/if}
 		<label>
@@ -112,26 +106,14 @@
 	<div class="section">
 		<TechStackEditor bind:items={projectConfig.techStack} {strings} />
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="techStack"
-				title={strings.sectionTechStack}
-				current={projectConfig.techStack}
-				onApply={applyTechStack}
-				{strings}
-			/>
+			<ApplyTemplate section="techStack" onApply={applyTechStack} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<SetupCommandsEditor bind:items={projectConfig.setupCommands} {strings} />
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="setupCommands"
-				title={strings.sectionSetupCommands}
-				current={projectConfig.setupCommands}
-				onApply={applySetupCommands}
-				{strings}
-			/>
+			<ApplyTemplate section="setupCommands" onApply={applySetupCommands} {strings} />
 		{/if}
 	</div>
 
@@ -143,26 +125,14 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="coreFeatures"
-				title={strings.sectionCoreFeatures}
-				current={projectConfig.coreFeatures}
-				onApply={applyCoreFeatures}
-				{strings}
-			/>
+			<ApplyTemplate section="coreFeatures" onApply={applyCoreFeatures} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<PhasesEditor bind:items={projectConfig.phases} {strings} />
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="phases"
-				title={strings.sectionPhases}
-				current={projectConfig.phases}
-				onApply={applyPhases}
-				{strings}
-			/>
+			<ApplyTemplate section="phases" onApply={applyPhases} {strings} />
 		{/if}
 	</div>
 
@@ -174,13 +144,7 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="acceptanceCriteria"
-				title={strings.sectionAcceptanceCriteria}
-				current={projectConfig.acceptanceCriteria}
-				onApply={applyAcceptanceCriteria}
-				{strings}
-			/>
+			<ApplyTemplate section="acceptanceCriteria" onApply={applyAcceptanceCriteria} {strings} />
 		{/if}
 	</div>
 
@@ -192,26 +156,14 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="whatNotToDo"
-				title={strings.sectionWhatNotToDo}
-				current={projectConfig.whatNotToDo}
-				onApply={applyWhatNotToDo}
-				{strings}
-			/>
+			<ApplyTemplate section="whatNotToDo" onApply={applyWhatNotToDo} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<DocRefsEditor bind:items={projectConfig.documentationReferences} {strings} />
 		{#if templatesEnabled}
-			<SectionTemplates
-				section="documentationReferences"
-				title={strings.sectionDocRefs}
-				current={projectConfig.documentationReferences}
-				onApply={applyDocRefs}
-				{strings}
-			/>
+			<ApplyTemplate section="documentationReferences" onApply={applyDocRefs} {strings} />
 		{/if}
 	</div>
 </form>
@@ -223,7 +175,7 @@
 		gap: 1.25rem;
 		padding: 1.5rem;
 	}
-	/* Each section groups its editor with the "Templates" button below it. */
+	/* Each section groups its editor with the "Apply template" control below it. */
 	.section {
 		display: flex;
 		flex-direction: column;
@@ -249,7 +201,7 @@
 	fieldset > label:last-child {
 		margin-bottom: 0;
 	}
-	/* Description sits directly above its Templates button; drop the gap between. */
+	/* Description sits directly above its apply control; drop the gap between. */
 	label.tight {
 		margin-bottom: 0.4rem;
 	}
