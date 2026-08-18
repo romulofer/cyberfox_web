@@ -28,6 +28,15 @@ describe('SettingsStore', () => {
 		expect(s.customAgents).toEqual([]);
 	});
 
+	it('toggleLanguage flips en/ptBR', () => {
+		const s = new SettingsStore();
+		s.setLanguage('en');
+		s.toggleLanguage();
+		expect(s.language).toBe('ptBR');
+		s.toggleLanguage();
+		expect(s.language).toBe('en');
+	});
+
 	it('toggleTheme flips light/dark', () => {
 		const s = new SettingsStore();
 		s.toggleTheme();

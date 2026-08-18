@@ -26,9 +26,13 @@ export default defineConfig({
 			'/api': 'http://localhost:8787'
 		}
 	},
+	// Under Vitest, resolve Svelte's client build instead of its SSR build so
+	// @testing-library/svelte can mount components in jsdom.
+	resolve: process.env.VITEST ? { conditions: ['browser'] } : undefined,
 	test: {
 		environment: 'jsdom',
 		include: ['src/**/*.{test,spec}.ts', 'tests/unit/**/*.{test,spec}.ts'],
-		globals: true
+		globals: true,
+		setupFiles: ['./vitest-setup.ts']
 	}
 });

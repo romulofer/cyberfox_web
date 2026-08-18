@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { TemplatesStore } from './templates.svelte';
-import type { TechStackEntry } from '../core/models/types';
+import type { SectionTemplate, TechStackEntry } from '../core/models/types';
 
 describe('TemplatesStore', () => {
 	beforeEach(() => {
@@ -62,5 +62,76 @@ describe('TemplatesStore', () => {
 		const reloaded = new TemplatesStore();
 		expect(reloaded.forSection('phases')).toHaveLength(1);
 		expect(reloaded.forSection('phases')[0].name).toBe('Roadmap');
+	});
+});
+
+describe('TemplatesStore server sync', () => {
+	beforeEach(() => {
+		localStorage.clear();
+	});
+
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
+	it('adopts the server list when the server has data', async () => {
+		const remote: SectionTemplate[] = [
+			{ id: 'srv-1', section: 'coreFeatures', name: 'From server', content: ['Auth'] }
+		];
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve(remote) })
+		);
+
+		const store = new TemplatesStore();
+		await store.syncFromServer();
+
+		expect(store.items).toEqual(remote);
+		expect(JSON.parse(localStorage.getItem('cyberfox_web.templates.v1')!)).toEqual(remote);
+	});
+
+	it('pushes the local cache up when the server is empty but the cache is not', async () => {
+		localStorage.setItem(
+			'cyberfox_web.templates.v1',
+			JSON.stringify([{ id: 'local-1', section: 'coreFeatures', name: 'Local', content: ['A'] }])
+		);
+		const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
+		vi.stubGlobal('fetch', fetchMock);
+
+		const store = new TemplatesStore();
+		await store.syncFromServer();
+
+		expect(store.items).toHaveLength(1);
+		expect(fetchMock).toHaveBeenCalledWith(
+			'/api/templates',
+			expect.objectContaining({ method: 'PUT' })
+		);
+	});
+
+	it('leaves the local cache untouched when no backend is reachable', async () => {
+		vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('no backend')));
+
+		const store = new TemplatesStore();
+		store.save('coreFeatures', 'Offline', ['A']);
+		await store.syncFromServer();
+
+		expect(store.forSection('coreFeatures')).toHaveLength(1);
+	});
+
+	it('pushes to the server on save once the server is known reachable', async () => {
+		const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve([]) });
+		vi.stubGlobal('fetch', fetchMock);
+
+		const store = new TemplatesStore();
+		await store.syncFromServer();
+		fetchMock.mockClear();
+
+		store.save('coreFeatures', 'New', ['A']);
+		await Promise.resolve();
+
+		expect(fetchMock).toHaveBeenCalledWith(
+			'/api/templates',
+			expect.objectContaining({ method: 'PUT' })
+		);
 	});
 });

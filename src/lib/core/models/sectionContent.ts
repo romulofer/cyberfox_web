@@ -9,15 +9,17 @@ export const templateSectionKeys: TemplateSectionKey[] = [
 	'coreFeatures',
 	'phases',
 	'acceptanceCriteria',
+	'whatToDo',
 	'whatNotToDo',
 	'documentationReferences'
 ];
 
-// The three sections whose content is a plain list of strings; they share one
+// The sections whose content is a plain list of strings; they share one
 // editor and one empty shape.
 const stringListSections: TemplateSectionKey[] = [
 	'coreFeatures',
 	'acceptanceCriteria',
+	'whatToDo',
 	'whatNotToDo'
 ];
 
@@ -40,7 +42,7 @@ export function emptySectionContent(section: TemplateSectionKey): SectionContent
 		case 'documentationReferences':
 			return [];
 		default:
-			// coreFeatures, acceptanceCriteria, whatNotToDo
+			// coreFeatures, acceptanceCriteria, whatToDo, whatNotToDo
 			return [];
 	}
 }
@@ -60,6 +62,8 @@ export function sectionLabel(section: TemplateSectionKey, strings: AppStrings): 
 			return strings.sectionPhases;
 		case 'acceptanceCriteria':
 			return strings.sectionAcceptanceCriteria;
+		case 'whatToDo':
+			return strings.sectionWhatToDo;
 		case 'whatNotToDo':
 			return strings.sectionWhatNotToDo;
 		case 'documentationReferences':

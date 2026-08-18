@@ -17,6 +17,7 @@ function baseConfig(overrides: Partial<ProjectConfig> = {}): ProjectConfig {
 		coreFeatures: [],
 		phases: [],
 		acceptanceCriteria: [],
+		whatToDo: [],
 		whatNotToDo: [],
 		documentationReferences: [],
 		...overrides
@@ -45,6 +46,7 @@ describe('generateMarkdown: parity with base_template.dart', () => {
 			setupCommands: [{ command: 'bun install', description: 'Install deps' }],
 			coreFeatures: ['Fast', 'Simple'],
 			acceptanceCriteria: ['Tests pass'],
+			whatToDo: ['Validate input'],
 			whatNotToDo: ['No secrets'],
 			documentationReferences: [{ title: 'Svelte', url: 'https://svelte.dev', description: 'Docs' }]
 		});
@@ -77,6 +79,10 @@ describe('generateMarkdown: parity with base_template.dart', () => {
 			'## Acceptance Criteria',
 			'',
 			'- Tests pass',
+			'',
+			'## What To Do',
+			'',
+			'- Validate input',
 			'',
 			'## What Not To Do',
 			'',

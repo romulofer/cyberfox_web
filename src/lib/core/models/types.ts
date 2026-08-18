@@ -35,6 +35,7 @@ export interface ProjectConfig {
 	coreFeatures: string[];
 	phases: ProjectPhase[];
 	acceptanceCriteria: string[];
+	whatToDo: string[];
 	whatNotToDo: string[];
 	documentationReferences: DocumentationReference[];
 }
@@ -48,6 +49,7 @@ export type TemplateSectionKey =
 	| 'coreFeatures'
 	| 'phases'
 	| 'acceptanceCriteria'
+	| 'whatToDo'
 	| 'whatNotToDo'
 	| 'documentationReferences';
 

@@ -94,6 +94,7 @@
 
 	function stringListPlaceholder(): string {
 		if (section === 'acceptanceCriteria') return strings.hintCriterion;
+		if (section === 'whatToDo') return strings.hintGuideline;
 		if (section === 'whatNotToDo') return strings.hintProhibition;
 		return strings.hintFeature;
 	}

@@ -126,6 +126,43 @@ test.describe('home: form and live preview', () => {
 		await expect(page.getByLabel('Category', { exact: true })).toBeFocused();
 	});
 
+	test('adding a what-to-do guideline is reflected in the preview', async ({ page }) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('P');
+
+		const whatToDo = page.locator('fieldset').filter({ hasText: 'What To Do' });
+		await whatToDo.getByRole('button', { name: '➕ Add' }).click();
+		await whatToDo.getByLabel('What To Do 1').fill('Validate user input');
+
+		const preview = page.getByTestId('preview');
+		await expect(preview).toContainText('What To Do');
+		await expect(preview).toContainText('Validate user input');
+	});
+
+	test('what-to-do renders before what-not-to-do in the form and in the preview', async ({
+		page
+	}) => {
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('P');
+
+		const legendTexts = await page.locator('form fieldset legend').allTextContents();
+		expect(legendTexts.indexOf('What To Do')).toBeLessThan(legendTexts.indexOf('What Not To Do'));
+
+		const whatToDo = page.locator('fieldset').filter({ hasText: 'What To Do' });
+		await whatToDo.getByRole('button', { name: '➕ Add' }).click();
+		await whatToDo.getByLabel('What To Do 1').fill('Do this');
+
+		const whatNotToDo = page.locator('fieldset').filter({ hasText: 'What Not To Do' });
+		await whatNotToDo.getByRole('button', { name: '➕ Add' }).click();
+		await whatNotToDo.getByLabel('What Not To Do 1').fill('Never that');
+
+		const preview = page.getByTestId('preview');
+		const headingOrder = await preview.evaluate((el) =>
+			Array.from(el.querySelectorAll('h2')).map((h) => h.textContent)
+		);
+		expect(headingOrder.indexOf('What To Do')).toBeLessThan(headingOrder.indexOf('What Not To Do'));
+	});
+
 	test('adding a project phase renders a numbered heading in the preview', async ({ page }) => {
 		await page.goto('/');
 		await page.getByTestId('project-name').fill('P');

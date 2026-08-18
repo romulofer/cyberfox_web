@@ -41,6 +41,11 @@ export interface AppStrings {
 	fieldCriterion: string;
 	hintCriterion: string;
 
+	// Form: What To Do section
+	sectionWhatToDo: string;
+	fieldGuideline: string;
+	hintGuideline: string;
+
 	// Form: What Not To Do section
 	sectionWhatNotToDo: string;
 	fieldProhibition: string;
@@ -106,6 +111,7 @@ export interface AppStrings {
 	mdSetupDescription: string;
 	mdCoreFeatures: string;
 	mdAcceptanceCriteria: string;
+	mdWhatToDo: string;
 	mdWhatNotToDo: string;
 	mdDocumentationReferences: string;
 	mdPhases: string;
@@ -148,6 +154,9 @@ const ptBR: AppStrings = {
 	sectionAcceptanceCriteria: 'Critérios de Aceite',
 	fieldCriterion: 'Critério',
 	hintCriterion: 'Testes de integração passando',
+	sectionWhatToDo: 'O Que Fazer',
+	fieldGuideline: 'Diretriz',
+	hintGuideline: 'Sempre validar entrada do usuário',
 	sectionWhatNotToDo: 'O Que Não Fazer',
 	fieldProhibition: 'Proibição / Anti-padrão',
 	hintProhibition: 'Nunca commitar secrets',
@@ -201,6 +210,7 @@ const ptBR: AppStrings = {
 	mdSetupDescription: 'Descrição',
 	mdCoreFeatures: 'Funcionalidades Principais',
 	mdAcceptanceCriteria: 'Critérios de Aceite',
+	mdWhatToDo: 'O Que Fazer',
 	mdWhatNotToDo: 'O Que Não Fazer',
 	mdDocumentationReferences: 'Documentações de Referência',
 	mdPhases: 'Fases do Projeto',
@@ -241,6 +251,9 @@ const en: AppStrings = {
 	sectionAcceptanceCriteria: 'Acceptance Criteria',
 	fieldCriterion: 'Criterion',
 	hintCriterion: 'Integration tests passing',
+	sectionWhatToDo: 'What To Do',
+	fieldGuideline: 'Guideline',
+	hintGuideline: 'Always validate user input',
 	sectionWhatNotToDo: 'What Not To Do',
 	fieldProhibition: 'Prohibition / Anti-pattern',
 	hintProhibition: 'Never commit secrets',
@@ -294,6 +307,7 @@ const en: AppStrings = {
 	mdSetupDescription: 'Description',
 	mdCoreFeatures: 'Core Features',
 	mdAcceptanceCriteria: 'Acceptance Criteria',
+	mdWhatToDo: 'What To Do',
 	mdWhatNotToDo: 'What Not To Do',
 	mdDocumentationReferences: 'Documentation References',
 	mdPhases: 'Project Phases',

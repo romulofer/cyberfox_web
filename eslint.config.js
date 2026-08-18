@@ -23,6 +23,13 @@ export default [
 		}
 	},
 	{
-		ignores: ['.svelte-kit/', 'build/', 'node_modules/', 'playwright-report/', 'test-results/']
+		ignores: [
+			'.svelte-kit/',
+			'build/',
+			'node_modules/',
+			'playwright-report/',
+			'test-results/',
+			'coverage/'
+		]
 	}
 ];

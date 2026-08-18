@@ -74,6 +74,15 @@ export function generateMarkdown(config: ProjectConfig, s: AppStrings): string {
 		}
 	}
 
+	if (config.whatToDo.length > 0) {
+		lines.push('');
+		lines.push(`## ${s.mdWhatToDo}`);
+		lines.push('');
+		for (const g of config.whatToDo) {
+			lines.push(`- ${g}`);
+		}
+	}
+
 	if (config.whatNotToDo.length > 0) {
 		lines.push('');
 		lines.push(`## ${s.mdWhatNotToDo}`);

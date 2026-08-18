@@ -26,7 +26,7 @@ sem backend, nenhum dado sai do seu navegador.
 - **7 agentes de IA integrados**: cada um com seu nome de arquivo canônico
 - **Agentes personalizados**: adicione os seus (nome + arquivo) em Configurações
 - Seções de **Tech Stack**, **Comandos de Setup**, **Funcionalidades Principais**,
-  **Fases do Projeto**, **Critérios de Aceite**, **O Que Não Fazer** e
+  **Fases do Projeto**, **Critérios de Aceite**, **O Que Fazer**, **O Que Não Fazer** e
   **Documentações de Referência**
 - **Fases do Projeto**: adicione quantas fases quiser, cada uma com nome,
   descrição e lista de tarefas
@@ -136,7 +136,8 @@ leaves your browser.
 - **7 built-in AI agents**: each with its canonical output filename
 - **Custom agents**: add your own (name + filename) in Settings; persisted
 - **Tech Stack**, **Setup Commands**, **Core Features**, **Project Phases**,
-  **Acceptance Criteria**, **What Not To Do** and **Documentation References** sections
+  **Acceptance Criteria**, **What To Do**, **What Not To Do** and **Documentation References**
+  sections
 - **Project phases**: add as many phases as you want, each with a name,
   description and task list
 - **Section templates** _(self-hosted / dev only)_: save any section's content as

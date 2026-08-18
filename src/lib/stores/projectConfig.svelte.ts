@@ -18,6 +18,7 @@ export function emptyConfig(): ProjectConfig {
 		coreFeatures: [],
 		phases: [],
 		acceptanceCriteria: [],
+		whatToDo: [],
 		whatNotToDo: [],
 		documentationReferences: []
 	};
@@ -32,6 +33,7 @@ export class ProjectConfigStore {
 	coreFeatures = $state<string[]>([]);
 	phases = $state<ProjectPhase[]>([]);
 	acceptanceCriteria = $state<string[]>([]);
+	whatToDo = $state<string[]>([]);
 	whatNotToDo = $state<string[]>([]);
 	documentationReferences = $state<DocumentationReference[]>([]);
 
@@ -45,6 +47,7 @@ export class ProjectConfigStore {
 			coreFeatures: this.coreFeatures,
 			phases: this.phases,
 			acceptanceCriteria: this.acceptanceCriteria,
+			whatToDo: this.whatToDo,
 			whatNotToDo: this.whatNotToDo,
 			documentationReferences: this.documentationReferences
 		};
@@ -59,6 +62,7 @@ export class ProjectConfigStore {
 		this.coreFeatures = config.coreFeatures;
 		this.phases = config.phases;
 		this.acceptanceCriteria = config.acceptanceCriteria;
+		this.whatToDo = config.whatToDo;
 		this.whatNotToDo = config.whatNotToDo;
 		this.documentationReferences = config.documentationReferences;
 	}

@@ -62,6 +62,9 @@
 			...(content as string[])
 		];
 	}
+	function applyWhatToDo(content: SectionContent) {
+		projectConfig.whatToDo = [...projectConfig.whatToDo, ...(content as string[])];
+	}
 	function applyWhatNotToDo(content: SectionContent) {
 		projectConfig.whatNotToDo = [...projectConfig.whatNotToDo, ...(content as string[])];
 	}
@@ -145,6 +148,18 @@
 		/>
 		{#if templatesEnabled}
 			<ApplyTemplate section="acceptanceCriteria" onApply={applyAcceptanceCriteria} {strings} />
+		{/if}
+	</div>
+
+	<div class="section">
+		<StringListEditor
+			label={strings.sectionWhatToDo}
+			bind:items={projectConfig.whatToDo}
+			placeholder={strings.hintGuideline}
+			addLabel={strings.add}
+		/>
+		{#if templatesEnabled}
+			<ApplyTemplate section="whatToDo" onApply={applyWhatToDo} {strings} />
 		{/if}
 	</div>
 
