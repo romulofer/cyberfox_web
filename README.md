@@ -2,7 +2,7 @@
 
 **Demo online:** <https://romulofer.github.io/cyberfox_web/>
 
-[![Docker Hub](https://img.shields.io/docker/v/romulofeva/cyberfox_web?label=docker%20hub&sort=semver)](https://hub.docker.com/r/romulofeva/cyberfox_web)
+[![Docker Hub](https://img.shields.io/docker/v/legendaryhero/cyberfox_web?label=docker%20hub&sort=semver)](https://hub.docker.com/r/legendaryhero/cyberfox_web)
 
 ---
 
@@ -110,9 +110,9 @@ O app fica disponível em <http://localhost:8666>.
 Imagens prontas também ficam publicadas no Docker Hub, sem precisar buildar
 localmente:
 
-- [`romulofeva/cyberfox_web`](https://hub.docker.com/r/romulofeva/cyberfox_web)
+- [`legendaryhero/cyberfox_web`](https://hub.docker.com/r/legendaryhero/cyberfox_web)
   (site estático + nginx)
-- [`romulofeva/cyberfox_web_api`](https://hub.docker.com/r/romulofeva/cyberfox_web_api)
+- [`legendaryhero/cyberfox_web_api`](https://hub.docker.com/r/legendaryhero/cyberfox_web_api)
   (API de templates)
 
 ### Deploy no GitHub Pages
@@ -225,9 +225,9 @@ The app is served at <http://localhost:8666>.
 
 Prebuilt images are also published on Docker Hub, no local build required:
 
-- [`romulofeva/cyberfox_web`](https://hub.docker.com/r/romulofeva/cyberfox_web)
+- [`legendaryhero/cyberfox_web`](https://hub.docker.com/r/legendaryhero/cyberfox_web)
   (static site + nginx)
-- [`romulofeva/cyberfox_web_api`](https://hub.docker.com/r/romulofeva/cyberfox_web_api)
+- [`legendaryhero/cyberfox_web_api`](https://hub.docker.com/r/legendaryhero/cyberfox_web_api)
   (templates API)
 
 ### Deploying to GitHub Pages
