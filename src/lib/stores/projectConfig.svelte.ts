@@ -4,8 +4,10 @@ import type {
 	DocumentationReference,
 	ProjectConfig,
 	ProjectPhase,
+	SectionContent,
 	SetupCommand,
-	TechStackEntry
+	TechStackEntry,
+	TemplateSectionKey
 } from '../core/models/types';
 
 export function emptyConfig(): ProjectConfig {
@@ -54,17 +56,49 @@ export class ProjectConfigStore {
 	}
 
 	load(config: ProjectConfig) {
-		this.projectName = config.projectName;
-		this.description = config.description;
-		this.targetAi = config.targetAi;
-		this.techStack = config.techStack;
-		this.setupCommands = config.setupCommands;
-		this.coreFeatures = config.coreFeatures;
-		this.phases = config.phases;
-		this.acceptanceCriteria = config.acceptanceCriteria;
-		this.whatToDo = config.whatToDo;
-		this.whatNotToDo = config.whatNotToDo;
-		this.documentationReferences = config.documentationReferences;
+		Object.assign(this, config);
+	}
+
+	// Append template content to the matching section. Used by ProjectForm so the
+	// dispatch logic lives here rather than duplicated across eight apply functions.
+	applySection(section: TemplateSectionKey, content: SectionContent) {
+		switch (section) {
+			case 'description':
+				this.description = this.description
+					? `${this.description}\n\n${String(content)}`
+					: String(content);
+				break;
+			case 'techStack':
+				this.techStack = [...this.techStack, ...structuredClone(content as TechStackEntry[])];
+				break;
+			case 'setupCommands':
+				this.setupCommands = [
+					...this.setupCommands,
+					...structuredClone(content as SetupCommand[])
+				];
+				break;
+			case 'phases':
+				this.phases = [...this.phases, ...structuredClone(content as ProjectPhase[])];
+				break;
+			case 'documentationReferences':
+				this.documentationReferences = [
+					...this.documentationReferences,
+					...structuredClone(content as DocumentationReference[])
+				];
+				break;
+			case 'coreFeatures':
+				this.coreFeatures = [...this.coreFeatures, ...(content as string[])];
+				break;
+			case 'acceptanceCriteria':
+				this.acceptanceCriteria = [...this.acceptanceCriteria, ...(content as string[])];
+				break;
+			case 'whatToDo':
+				this.whatToDo = [...this.whatToDo, ...(content as string[])];
+				break;
+			case 'whatNotToDo':
+				this.whatNotToDo = [...this.whatNotToDo, ...(content as string[])];
+				break;
+		}
 	}
 
 	reset() {

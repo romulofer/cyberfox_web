@@ -36,6 +36,8 @@ export class TemplatesStore {
 	// True once a GET against the API succeeds; gates server writes so we never
 	// fire useless requests when self-hosting is not in play.
 	private serverAvailable = false;
+	// Incremented on every local write; lets syncFromServer detect concurrent edits.
+	private writeSeq = 0;
 
 	constructor() {
 		// Paint immediately from the local cache, then reconcile with the server.
@@ -47,15 +49,24 @@ export class TemplatesStore {
 	// truth when it has data; when it is empty but the local cache is not (e.g. the
 	// first run after upgrading from browser-only storage), push the cache up so
 	// nothing is lost.
+	//
+	// writeSeq guards against a race where the user saves a template while the
+	// initial GET is in-flight: if a local write happened during the fetch we keep
+	// the local state and push it to the server (which is now reachable).
 	async syncFromServer() {
+		const seqAtFetchStart = this.writeSeq;
 		const remote = await fetchTemplates();
 		if (remote === null) return; // no backend reachable — stay on the cache
 		this.serverAvailable = true;
 		if (remote.length === 0 && this.items.length > 0) {
 			void this.pushToServer();
-		} else {
+		} else if (this.writeSeq === seqAtFetchStart) {
+			// No local writes during fetch; server is authoritative.
 			this.items = remote;
 			this.cache();
+		} else {
+			// Local writes happened while fetching; push them now that server is reachable.
+			void this.pushToServer();
 		}
 	}
 
@@ -71,6 +82,7 @@ export class TemplatesStore {
 		// Snapshot to strip any reactive proxy before persisting.
 		const snapshot = structuredClone($state.snapshot(content)) as SectionContent;
 		const template: SectionTemplate = { id: newId(), section, name, content: snapshot };
+		this.writeSeq++;
 		this.items = [...this.items, template];
 		this.persist();
 		return template;
@@ -79,6 +91,7 @@ export class TemplatesStore {
 	// Edit an existing template's name and/or content in place. The section is
 	// intentionally fixed once created, since the content shape depends on it.
 	update(id: string, patch: { name?: string; content?: SectionContent }) {
+		this.writeSeq++;
 		this.items = this.items.map((t) => {
 			if (t.id !== id) return t;
 			const next: SectionTemplate = { ...t };
@@ -92,6 +105,7 @@ export class TemplatesStore {
 	}
 
 	remove(id: string) {
+		this.writeSeq++;
 		this.items = this.items.filter((t) => t.id !== id);
 		this.persist();
 	}
@@ -108,7 +122,9 @@ export class TemplatesStore {
 	}
 
 	private async pushToServer() {
-		await saveTemplates($state.snapshot(this.items) as SectionTemplate[]);
+		const ok = await saveTemplates($state.snapshot(this.items) as SectionTemplate[]);
+		// On failure, mark server unavailable so the next page load retries via syncFromServer.
+		if (!ok) this.serverAvailable = false;
 	}
 }
 

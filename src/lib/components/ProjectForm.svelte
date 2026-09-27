@@ -1,13 +1,6 @@
 <script lang="ts">
 	import type { AppStrings } from '$lib/core/i18n/strings';
-	import type {
-		AiTarget,
-		DocumentationReference,
-		ProjectPhase,
-		SectionContent,
-		SetupCommand,
-		TechStackEntry
-	} from '$lib/core/models/types';
+	import type { AiTarget } from '$lib/core/models/types';
 	import { projectConfig } from '$lib/stores/projectConfig.svelte';
 	import { templatesEnabled } from '$lib/core/env';
 	import StringListEditor from './StringListEditor.svelte';
@@ -29,51 +22,6 @@
 		const found = agents.find((a) => a.filename === filename);
 		if (found) projectConfig.targetAi = found;
 	}
-
-	// Applying a template appends a deep copy of its content to the section, so the
-	// stored template stays independent from later edits.
-	function applyDescription(content: SectionContent) {
-		const text = String(content);
-		projectConfig.description = projectConfig.description
-			? `${projectConfig.description}\n\n${text}`
-			: text;
-	}
-	function applyTechStack(content: SectionContent) {
-		projectConfig.techStack = [
-			...projectConfig.techStack,
-			...structuredClone(content as TechStackEntry[])
-		];
-	}
-	function applySetupCommands(content: SectionContent) {
-		projectConfig.setupCommands = [
-			...projectConfig.setupCommands,
-			...structuredClone(content as SetupCommand[])
-		];
-	}
-	function applyCoreFeatures(content: SectionContent) {
-		projectConfig.coreFeatures = [...projectConfig.coreFeatures, ...(content as string[])];
-	}
-	function applyPhases(content: SectionContent) {
-		projectConfig.phases = [...projectConfig.phases, ...structuredClone(content as ProjectPhase[])];
-	}
-	function applyAcceptanceCriteria(content: SectionContent) {
-		projectConfig.acceptanceCriteria = [
-			...projectConfig.acceptanceCriteria,
-			...(content as string[])
-		];
-	}
-	function applyWhatToDo(content: SectionContent) {
-		projectConfig.whatToDo = [...projectConfig.whatToDo, ...(content as string[])];
-	}
-	function applyWhatNotToDo(content: SectionContent) {
-		projectConfig.whatNotToDo = [...projectConfig.whatNotToDo, ...(content as string[])];
-	}
-	function applyDocRefs(content: SectionContent) {
-		projectConfig.documentationReferences = [
-			...projectConfig.documentationReferences,
-			...structuredClone(content as DocumentationReference[])
-		];
-	}
 </script>
 
 <form class="form" onsubmit={(e) => e.preventDefault()}>
@@ -89,7 +37,7 @@
 		</label>
 		{#if templatesEnabled}
 			<div class="desc-templates">
-				<ApplyTemplate section="description" onApply={applyDescription} {strings} />
+				<ApplyTemplate section="description" onApply={(c) => projectConfig.applySection('description', c)} {strings} />
 			</div>
 		{/if}
 		<label>
@@ -109,14 +57,14 @@
 	<div class="section">
 		<TechStackEditor bind:items={projectConfig.techStack} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="techStack" onApply={applyTechStack} {strings} />
+			<ApplyTemplate section="techStack" onApply={(c) => projectConfig.applySection('techStack', c)} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<SetupCommandsEditor bind:items={projectConfig.setupCommands} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="setupCommands" onApply={applySetupCommands} {strings} />
+			<ApplyTemplate section="setupCommands" onApply={(c) => projectConfig.applySection('setupCommands', c)} {strings} />
 		{/if}
 	</div>
 
@@ -128,14 +76,14 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="coreFeatures" onApply={applyCoreFeatures} {strings} />
+			<ApplyTemplate section="coreFeatures" onApply={(c) => projectConfig.applySection('coreFeatures', c)} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<PhasesEditor bind:items={projectConfig.phases} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="phases" onApply={applyPhases} {strings} />
+			<ApplyTemplate section="phases" onApply={(c) => projectConfig.applySection('phases', c)} {strings} />
 		{/if}
 	</div>
 
@@ -147,7 +95,7 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="acceptanceCriteria" onApply={applyAcceptanceCriteria} {strings} />
+			<ApplyTemplate section="acceptanceCriteria" onApply={(c) => projectConfig.applySection('acceptanceCriteria', c)} {strings} />
 		{/if}
 	</div>
 
@@ -159,7 +107,7 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="whatToDo" onApply={applyWhatToDo} {strings} />
+			<ApplyTemplate section="whatToDo" onApply={(c) => projectConfig.applySection('whatToDo', c)} {strings} />
 		{/if}
 	</div>
 
@@ -171,14 +119,14 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="whatNotToDo" onApply={applyWhatNotToDo} {strings} />
+			<ApplyTemplate section="whatNotToDo" onApply={(c) => projectConfig.applySection('whatNotToDo', c)} {strings} />
 		{/if}
 	</div>
 
 	<div class="section">
 		<DocRefsEditor bind:items={projectConfig.documentationReferences} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="documentationReferences" onApply={applyDocRefs} {strings} />
+			<ApplyTemplate section="documentationReferences" onApply={(c) => projectConfig.applySection('documentationReferences', c)} {strings} />
 		{/if}
 	</div>
 </form>

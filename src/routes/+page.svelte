@@ -4,7 +4,7 @@
 	import { settings } from '$lib/stores/settings.svelte';
 	import { strings } from '$lib/core/i18n/strings';
 	import { generateMarkdown } from '$lib/core/generators/markdownGenerator';
-	import { configHash, encodeConfig, readConfigFromHash } from '$lib/stores/urlState';
+	import { configHash, readConfigFromHash } from '$lib/stores/urlState';
 	import ProjectForm from '$lib/components/ProjectForm.svelte';
 	import PreviewPane from '$lib/components/PreviewPane.svelte';
 	import Toolbar from '$lib/components/Toolbar.svelte';
@@ -12,7 +12,7 @@
 	const t = $derived(strings[settings.language]);
 	const markdown = $derived(generateMarkdown(projectConfig.config, t));
 
-	const emptyEncoded = encodeConfig(emptyConfig());
+	const emptyHash = configHash(emptyConfig());
 	let hydrated = $state(false);
 
 	onMount(() => {
@@ -24,13 +24,11 @@
 	// Mirror the current config into the URL hash once hydrated; a default config
 	// clears the hash to keep the URL clean.
 	$effect(() => {
-		const encoded = encodeConfig(projectConfig.config);
 		if (!hydrated) return;
-		const next =
-			encoded === emptyEncoded
-				? location.pathname + location.search
-				: configHash(projectConfig.config);
-		history.replaceState(null, '', next);
+		const hash = configHash(projectConfig.config);
+		history.replaceState(null, '', hash === emptyHash
+			? location.pathname + location.search
+			: hash);
 	});
 </script>
 

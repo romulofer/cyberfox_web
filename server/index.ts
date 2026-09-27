@@ -19,6 +19,7 @@ const VALID_SECTIONS = new Set([
 	'coreFeatures',
 	'phases',
 	'acceptanceCriteria',
+	'whatToDo',
 	'whatNotToDo',
 	'documentationReferences'
 ]);

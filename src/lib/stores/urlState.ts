@@ -22,10 +22,32 @@ export function encodeConfig(config: ProjectConfig): string {
 	return toBase64Url(JSON.stringify(config));
 }
 
+function isPartialConfigSafe(parsed: Partial<ProjectConfig>): boolean {
+	const obj = parsed as Record<string, unknown>;
+	const arrayKeys: (keyof ProjectConfig)[] = [
+		'techStack', 'setupCommands', 'coreFeatures', 'phases',
+		'acceptanceCriteria', 'whatToDo', 'whatNotToDo', 'documentationReferences'
+	];
+	for (const k of arrayKeys) {
+		if (k in obj && !Array.isArray(obj[k])) return false;
+	}
+	for (const k of ['projectName', 'description'] as const) {
+		if (k in obj && typeof obj[k] !== 'string') return false;
+	}
+	if ('targetAi' in obj) {
+		const ai = obj.targetAi;
+		if (!ai || typeof ai !== 'object') return false;
+		const r = ai as Record<string, unknown>;
+		if (typeof r.name !== 'string' || typeof r.filename !== 'string') return false;
+	}
+	return true;
+}
+
 export function decodeConfig(encoded: string): ProjectConfig | null {
 	try {
 		const parsed = JSON.parse(fromBase64Url(encoded)) as Partial<ProjectConfig>;
 		if (typeof parsed !== 'object' || parsed === null) return null;
+		if (!isPartialConfigSafe(parsed)) return null;
 		return { ...emptyConfig(), ...parsed };
 	} catch {
 		return null;
