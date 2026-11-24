@@ -2,7 +2,7 @@
 
 ## Visão Geral do Projeto
 
-gere a descrição desse projeto com base no repositório presente em ~/development/x_platform_apps/cyberfox. este projeto deve ser uma versão web idêntica ao cyberfox. deve ser usado svelte e sveltekit, com bun e typescript. 
+gere a descrição desse projeto com base no repositório presente em ~/development/x_platform_apps/cyberfox. deve ser usado svelte e sveltekit, com bun e typescript. 
 
 ## Tech Stack
 

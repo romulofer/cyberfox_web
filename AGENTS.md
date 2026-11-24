@@ -10,6 +10,6 @@ Guidance for AI agents working in this repository.
 
 - Runtime and package manager: Bun.
 - Framework: SvelteKit with Svelte 5 runes and TypeScript (strict).
-- Keep the markdown output byte-identical to the reference generator.
+- Generated markdown must be valid GFM: table cells are escaped, blank entries are skipped, and blocks are separated by one blank line. `markdownGenerator.test.ts` is the reference for the exact output.
 - Run `bun run check`, `bun run lint`, `bun run test:unit`, and `bun run test:e2e`
   before considering a change complete.
