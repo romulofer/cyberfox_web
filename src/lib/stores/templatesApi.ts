@@ -1,4 +1,5 @@
 import type { SectionTemplate } from '$lib/core/models/types';
+import { parseTemplates } from '$lib/core/models/schema';
 
 // Client for the self-hosted templates API (see server/index.ts), reached through
 // the nginx /api proxy. Every call is best-effort: when the backend is absent
@@ -11,7 +12,7 @@ export async function fetchTemplates(): Promise<SectionTemplate[] | null> {
 		const res = await fetch(`${BASE}/templates`, { headers: { accept: 'application/json' } });
 		if (!res.ok) return null;
 		const data: unknown = await res.json();
-		return Array.isArray(data) ? (data as SectionTemplate[]) : null;
+		return parseTemplates(data);
 	} catch {
 		return null;
 	}

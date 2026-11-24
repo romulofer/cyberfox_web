@@ -7,6 +7,7 @@ export interface AppStrings {
 	saveFileLabel: (filename: string) => string;
 	copy: string;
 	copied: string;
+	copyFailed: string;
 	previewPlaceholder: string;
 
 	// Form: Project section
@@ -73,6 +74,7 @@ export interface AppStrings {
 	templatesNav: string;
 	templatesManageTitle: string;
 	templatesManageIntro: string;
+	templatesSyncError: string;
 	templateNew: string;
 	templateEdit: string;
 	templateSection: string;
@@ -123,6 +125,9 @@ export interface AppStrings {
 	hintAgentName: string;
 	fieldAgentFilename: string;
 	hintAgentFilename: string;
+	agentErrorEmpty: string;
+	agentErrorDuplicate: string;
+	settingsSaveError: string;
 }
 
 const ptBR: AppStrings = {
@@ -131,6 +136,7 @@ const ptBR: AppStrings = {
 	saveFileLabel: (f) => `Salvar ${f}`,
 	copy: 'Copiar',
 	copied: 'Copiado!',
+	copyFailed: 'Não foi possível copiar. Selecione o texto da pré-visualização e copie manualmente.',
 	previewPlaceholder: 'O preview aparecerá aqui conforme você preenche o formulário.',
 	sectionProject: 'Projeto',
 	fieldName: 'Nome',
@@ -180,6 +186,8 @@ const ptBR: AppStrings = {
 	templatesManageTitle: 'Gerenciar Templates',
 	templatesManageIntro:
 		'Crie, edite e apague templates de seção reutilizáveis. Aplique-os no formulário do projeto.',
+	templatesSyncError:
+		'Não foi possível salvar no servidor. Suas alterações continuam neste navegador e serão enviadas de novo automaticamente.',
 	templateNew: 'Novo template',
 	templateEdit: 'Editar',
 	templateSection: 'Seção',
@@ -219,7 +227,11 @@ const ptBR: AppStrings = {
 	fieldAgentName: 'Nome do agente',
 	hintAgentName: 'Meu Agente',
 	fieldAgentFilename: 'Nome do arquivo',
-	hintAgentFilename: 'MEUAGENTE.md'
+	hintAgentFilename: 'MEUAGENTE.md',
+	agentErrorEmpty: 'Informe o nome e o arquivo do agente.',
+	agentErrorDuplicate: 'Já existe um agente com este arquivo.',
+	settingsSaveError:
+		'Não foi possível salvar as configurações neste navegador. Elas valem só até fechar a página.'
 };
 
 const en: AppStrings = {
@@ -228,6 +240,7 @@ const en: AppStrings = {
 	saveFileLabel: (f) => `Save ${f}`,
 	copy: 'Copy',
 	copied: 'Copied!',
+	copyFailed: 'Could not copy. Select the preview text and copy it manually.',
 	previewPlaceholder: 'The preview will appear here as you fill in the form.',
 	sectionProject: 'Project',
 	fieldName: 'Name',
@@ -277,6 +290,8 @@ const en: AppStrings = {
 	templatesManageTitle: 'Manage Templates',
 	templatesManageIntro:
 		'Create, edit and delete reusable section templates. Apply them from the project form.',
+	templatesSyncError:
+		'Could not save to the server. Your changes are kept in this browser and will be sent again automatically.',
 	templateNew: 'New template',
 	templateEdit: 'Edit',
 	templateSection: 'Section',
@@ -316,7 +331,11 @@ const en: AppStrings = {
 	fieldAgentName: 'Agent name',
 	hintAgentName: 'My Agent',
 	fieldAgentFilename: 'Filename',
-	hintAgentFilename: 'MYAGENT.md'
+	hintAgentFilename: 'MYAGENT.md',
+	agentErrorEmpty: 'Enter the agent name and filename.',
+	agentErrorDuplicate: 'An agent with this filename already exists.',
+	settingsSaveError:
+		'Could not save settings in this browser. They only last until the page is closed.'
 };
 
 export const strings: Record<Language, AppStrings> = { ptBR, en };

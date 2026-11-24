@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SettingsStore } from './settings.svelte';
 import { builtInAgents } from '../core/agents/builtInAgents';
 
@@ -61,5 +61,78 @@ describe('SettingsStore', () => {
 		localStorage.setItem('cyberfox_web.settings.v1', '{not json');
 		const s = new SettingsStore();
 		expect(s.language).toBe('ptBR');
+	});
+
+	it('falls back to defaults for unknown language and theme values', () => {
+		localStorage.setItem(
+			'cyberfox_web.settings.v1',
+			JSON.stringify({ language: 'fr', theme: 'neon', customAgents: [] })
+		);
+		const s = new SettingsStore();
+		expect(s.language).toBe('ptBR');
+		expect(s.theme).toBe('light');
+	});
+
+	it('ignores stored payloads that are not objects', () => {
+		for (const raw of ['null', '5', '"text"', '[]']) {
+			localStorage.setItem('cyberfox_web.settings.v1', raw);
+			const s = new SettingsStore();
+			expect(s.language).toBe('ptBR');
+			expect(s.customAgents).toEqual([]);
+		}
+	});
+
+	it('drops invalid, duplicate and built-in-clashing custom agents on load', () => {
+		localStorage.setItem(
+			'cyberfox_web.settings.v1',
+			JSON.stringify({
+				language: 'en',
+				customAgents: [
+					customAgent,
+					{ name: 'Same file', filename: 'myagent.md' },
+					{ name: 'Clash', filename: builtInAgents[0].filename },
+					{ name: 'No file' },
+					null,
+					'text'
+				]
+			})
+		);
+		const s = new SettingsStore();
+		expect(s.language).toBe('en');
+		expect(s.customAgents).toEqual([customAgent]);
+	});
+
+	it('addCustomAgent reports empty and duplicate input without changing the list', () => {
+		const s = new SettingsStore();
+		expect(s.addCustomAgent({ name: '  ', filename: 'A.md' })).toBe('empty');
+		expect(s.addCustomAgent({ name: 'A', filename: '' })).toBe('empty');
+		expect(s.addCustomAgent({ name: 'Mine', filename: builtInAgents[0].filename })).toBe(
+			'duplicate'
+		);
+		expect(
+			s.addCustomAgent({ name: 'Mine', filename: builtInAgents[0].filename.toLowerCase() })
+		).toBe('duplicate');
+		expect(s.addCustomAgent(customAgent)).toBe('added');
+		expect(s.addCustomAgent({ name: 'Other', filename: ' MYAGENT.md ' })).toBe('duplicate');
+		expect(s.customAgents).toEqual([customAgent]);
+	});
+
+	it('addCustomAgent trims name and filename', () => {
+		const s = new SettingsStore();
+		s.addCustomAgent({ name: '  Spaced  ', filename: '  SPACED.md ' });
+		expect(s.customAgents).toEqual([{ name: 'Spaced', filename: 'SPACED.md' }]);
+	});
+
+	it('keeps working in memory when localStorage rejects the write', () => {
+		const s = new SettingsStore();
+		const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+			throw new DOMException('full', 'QuotaExceededError');
+		});
+		expect(() => s.setTheme('dark')).not.toThrow();
+		expect(s.theme).toBe('dark');
+		expect(s.persistFailed).toBe(true);
+		spy.mockRestore();
+		s.setTheme('light');
+		expect(s.persistFailed).toBe(false);
 	});
 });

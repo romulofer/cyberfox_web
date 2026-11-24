@@ -19,6 +19,22 @@ describe('fetchTemplates', () => {
 		expect(await fetchTemplates()).toEqual(sample);
 	});
 
+	it('drops malformed entries from the server response', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockResolvedValue({
+				ok: true,
+				json: () =>
+					Promise.resolve([
+						...sample,
+						null,
+						{ id: 'x', section: 'techStack', name: 'Bad', content: 5 }
+					])
+			})
+		);
+		expect(await fetchTemplates()).toEqual(sample);
+	});
+
 	it('returns null when the response is not ok', async () => {
 		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false }));
 		expect(await fetchTemplates()).toBeNull();

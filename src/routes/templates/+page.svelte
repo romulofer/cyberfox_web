@@ -39,6 +39,12 @@
 	<a class="back" href={resolve('/')} aria-label="←">←</a>
 	<h1>{t.templatesManageTitle}</h1>
 
+	{#if templatesEnabled && templates.syncStatus === 'error'}
+		<p class="sync-error" role="alert" data-testid="templates-sync-error">
+			{t.templatesSyncError}
+		</p>
+	{/if}
+
 	{#if !templatesEnabled}
 		<p class="intro">{t.templatesManageIntro}</p>
 	{:else if mode.kind === 'list'}
@@ -103,6 +109,13 @@
 	.intro {
 		color: var(--muted);
 		margin: 0 0 1.25rem;
+	}
+	.sync-error {
+		margin: 0 0 1rem;
+		padding: 0.6rem 0.75rem;
+		border: 1px solid var(--danger);
+		border-radius: 6px;
+		color: var(--danger);
 	}
 	.new {
 		margin-bottom: 1.25rem;

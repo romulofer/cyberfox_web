@@ -55,8 +55,20 @@ export class ProjectConfigStore {
 		};
 	}
 
+	// Assigns the known fields one by one. Object.assign would also copy unexpected
+	// keys (including `__proto__`) onto the store.
 	load(config: ProjectConfig) {
-		Object.assign(this, config);
+		this.projectName = config.projectName;
+		this.description = config.description;
+		this.targetAi = config.targetAi;
+		this.techStack = config.techStack;
+		this.setupCommands = config.setupCommands;
+		this.coreFeatures = config.coreFeatures;
+		this.phases = config.phases;
+		this.acceptanceCriteria = config.acceptanceCriteria;
+		this.whatToDo = config.whatToDo;
+		this.whatNotToDo = config.whatNotToDo;
+		this.documentationReferences = config.documentationReferences;
 	}
 
 	// Append template content to the matching section. Used by ProjectForm so the
@@ -72,10 +84,7 @@ export class ProjectConfigStore {
 				this.techStack = [...this.techStack, ...structuredClone(content as TechStackEntry[])];
 				break;
 			case 'setupCommands':
-				this.setupCommands = [
-					...this.setupCommands,
-					...structuredClone(content as SetupCommand[])
-				];
+				this.setupCommands = [...this.setupCommands, ...structuredClone(content as SetupCommand[])];
 				break;
 			case 'phases':
 				this.phases = [...this.phases, ...structuredClone(content as ProjectPhase[])];

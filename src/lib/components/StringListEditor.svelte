@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { focusAfterRemove } from './focusAfterRemove';
 	interface Props {
 		label: string;
 		items: string[];
@@ -17,8 +18,10 @@
 		itemInputs[items.length - 1]?.focus();
 	}
 
-	function remove(index: number) {
+	function remove(index: number, event: MouseEvent) {
+		const scope = (event.currentTarget as HTMLElement).closest('fieldset');
 		items = items.filter((_, i) => i !== index);
+		void focusAfterRemove(scope, '.row', index, '.add');
 	}
 </script>
 
@@ -39,7 +42,9 @@
 					}
 				}}
 			/>
-			<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove">🗑️</button>
+			<button type="button" class="remove" onclick={(event) => remove(i, event)} aria-label="Remove"
+				>🗑️</button
+			>
 		</div>
 	{/each}
 	<button type="button" class="add" onclick={add}>➕ {addLabel}</button>

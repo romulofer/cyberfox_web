@@ -83,3 +83,59 @@ test.describe('templates tab: CRUD (self-hosted / dev only)', () => {
 		await expect(core.getByLabel('Core Features 1')).toHaveValue('Auth');
 	});
 });
+
+test.describe('templates tab: server sync failures', () => {
+	test('a failed save shows a warning, keeps the template and retries automatically', async ({
+		page
+	}) => {
+		let puts = 0;
+		let lastBody: unknown;
+		await page.route('**/api/templates', async (route) => {
+			const request = route.request();
+			if (request.method() === 'GET') {
+				await route.fulfill({ json: [] });
+				return;
+			}
+			puts++;
+			lastBody = request.postDataJSON();
+			if (puts === 1) await route.fulfill({ status: 500, body: 'boom' });
+			else await route.fulfill({ json: { ok: true } });
+		});
+
+		await createCoreFeaturesTemplate(page, 'Flaky', 'Auth');
+
+		await expect(page.getByTestId('templates-sync-error')).toBeVisible();
+		await expect(page.getByTestId('template-item').filter({ hasText: 'Flaky' })).toBeVisible();
+
+		// The first retry fires after about two seconds.
+		await expect(page.getByTestId('templates-sync-error')).toBeHidden({ timeout: 8000 });
+		expect(puts).toBeGreaterThanOrEqual(2);
+		expect(JSON.stringify(lastBody)).toContain('Flaky');
+	});
+
+	test('an edit made while the server is down survives a reload', async ({ page }) => {
+		let online = false;
+		let stored: unknown[] = [{ id: 'old', section: 'whatToDo', name: 'Old', content: ['x'] }];
+		await page.route('**/api/templates', async (route) => {
+			const request = route.request();
+			if (request.method() === 'GET') {
+				await route.fulfill({ json: stored });
+			} else if (!online) {
+				await route.fulfill({ status: 503, body: 'down' });
+			} else {
+				stored = request.postDataJSON() as unknown[];
+				await route.fulfill({ json: { ok: true } });
+			}
+		});
+
+		await createCoreFeaturesTemplate(page, 'Unsaved', 'Auth');
+		await expect(page.getByTestId('templates-sync-error')).toBeVisible();
+
+		online = true;
+		await page.reload();
+
+		await expect(page.getByTestId('template-item').filter({ hasText: 'Unsaved' })).toBeVisible();
+		await expect(page.getByTestId('template-item').filter({ hasText: 'Old' })).toBeVisible();
+		await expect.poll(() => JSON.stringify(stored)).toContain('Unsaved');
+	});
+});

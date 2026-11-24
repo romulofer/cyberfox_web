@@ -43,3 +43,30 @@ describe('StringListEditor', () => {
 		expect(screen.getByLabelText('Core Features 2')).toBeInTheDocument();
 	});
 });
+
+describe('StringListEditor: focus after removing a row', () => {
+	it('moves focus to the row that took its place', async () => {
+		render(StringListEditor, { props: { ...baseProps, items: ['A', 'B', 'C'] } });
+
+		await fireEvent.click(screen.getAllByRole('button', { name: 'Remove' })[1]);
+
+		expect(screen.getByLabelText('Core Features 2')).toHaveValue('C');
+		expect(screen.getByLabelText('Core Features 2')).toHaveFocus();
+	});
+
+	it('moves focus to the previous row when the last one is removed', async () => {
+		render(StringListEditor, { props: { ...baseProps, items: ['A', 'B'] } });
+
+		await fireEvent.click(screen.getAllByRole('button', { name: 'Remove' })[1]);
+
+		expect(screen.getByLabelText('Core Features 1')).toHaveFocus();
+	});
+
+	it('moves focus to the add button when no rows remain', async () => {
+		render(StringListEditor, { props: { ...baseProps, items: ['A'] } });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Remove' }));
+
+		expect(screen.getByRole('button', { name: /Add/ })).toHaveFocus();
+	});
+});

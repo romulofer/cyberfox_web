@@ -45,3 +45,71 @@ describe('copyMarkdown', () => {
 		expect(writeText).toHaveBeenCalledWith('# Hello');
 	});
 });
+
+describe('copyMarkdown fallback', () => {
+	function setClipboard(value: unknown) {
+		Object.defineProperty(navigator, 'clipboard', { value, configurable: true });
+	}
+	function setExecCommand(impl: (command: string) => boolean) {
+		Object.defineProperty(document, 'execCommand', {
+			value: vi.fn(impl),
+			configurable: true,
+			writable: true
+		});
+		return document.execCommand as unknown as ReturnType<typeof vi.fn>;
+	}
+
+	afterEach(() => {
+		setClipboard(undefined);
+	});
+
+	it('uses execCommand when the Clipboard API is unavailable (insecure context)', async () => {
+		setClipboard(undefined);
+		let copied = '';
+		const exec = setExecCommand(() => {
+			copied = (document.activeElement as HTMLTextAreaElement).value;
+			return true;
+		});
+
+		await copyMarkdown('# Fallback');
+
+		expect(exec).toHaveBeenCalledWith('copy');
+		expect(copied).toBe('# Fallback');
+	});
+
+	it('uses execCommand when writeText rejects', async () => {
+		setClipboard({ writeText: vi.fn().mockRejectedValue(new Error('denied')) });
+		const exec = setExecCommand(() => true);
+
+		await expect(copyMarkdown('# Denied')).resolves.toBeUndefined();
+		expect(exec).toHaveBeenCalledWith('copy');
+	});
+
+	it('rejects when both strategies fail', async () => {
+		setClipboard(undefined);
+		setExecCommand(() => false);
+		await expect(copyMarkdown('# Nope')).rejects.toThrow();
+	});
+
+	it('rejects when execCommand throws', async () => {
+		setClipboard(undefined);
+		setExecCommand(() => {
+			throw new Error('unsupported');
+		});
+		await expect(copyMarkdown('# Nope')).rejects.toThrow();
+	});
+
+	it('removes the temporary textarea and restores focus', async () => {
+		setClipboard(undefined);
+		setExecCommand(() => true);
+		const button = document.createElement('button');
+		document.body.appendChild(button);
+		button.focus();
+
+		await copyMarkdown('# Clean');
+
+		expect(document.querySelector('textarea')).toBeNull();
+		expect(document.activeElement).toBe(button);
+		button.remove();
+	});
+});

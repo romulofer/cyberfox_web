@@ -40,3 +40,31 @@ describe('SetupCommandsEditor', () => {
 		expect(screen.queryByDisplayValue('bun install')).not.toBeInTheDocument();
 	});
 });
+
+describe('SetupCommandsEditor: focus after removing a row', () => {
+	it('focuses the command of the row that took its place', async () => {
+		render(SetupCommandsEditor, {
+			props: {
+				strings: en,
+				items: [
+					{ command: 'one', description: '' },
+					{ command: 'two', description: '' }
+				]
+			}
+		});
+
+		await fireEvent.click(screen.getAllByRole('button', { name: 'Remove' })[0]);
+
+		expect(screen.getByDisplayValue('two')).toHaveFocus();
+	});
+
+	it('focuses the add button when no rows remain', async () => {
+		render(SetupCommandsEditor, {
+			props: { strings: en, items: [{ command: 'one', description: '' }] }
+		});
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Remove' }));
+
+		expect(screen.getByRole('button', { name: /Add/ })).toHaveFocus();
+	});
+});

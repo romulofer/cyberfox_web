@@ -44,3 +44,31 @@ describe('DocRefsEditor', () => {
 		expect(screen.queryByDisplayValue('Svelte')).not.toBeInTheDocument();
 	});
 });
+
+describe('DocRefsEditor: focus after removing an entry', () => {
+	it('focuses the title of the entry that took its place', async () => {
+		render(DocRefsEditor, {
+			props: {
+				strings: en,
+				items: [
+					{ title: 'First', url: '', description: '' },
+					{ title: 'Second', url: '', description: '' }
+				]
+			}
+		});
+
+		await fireEvent.click(screen.getAllByRole('button', { name: 'Remove' })[0]);
+
+		expect(screen.getByDisplayValue('Second')).toHaveFocus();
+	});
+
+	it('focuses the add button when no entries remain', async () => {
+		render(DocRefsEditor, {
+			props: { strings: en, items: [{ title: 'Only', url: '', description: '' }] }
+		});
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Remove' }));
+
+		expect(screen.getByRole('button', { name: /Add/ })).toHaveFocus();
+	});
+});

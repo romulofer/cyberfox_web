@@ -1,110 +1,116 @@
 import type { AppStrings } from '../i18n/strings';
 import type { ProjectConfig } from '../models/types';
 
-// Byte-for-byte port of base_template.dart: each push = one Dart writeln.
+// Originally ported from base_template.dart. The output now intentionally differs from
+// that reference: table cells are escaped, blank entries are skipped, and blocks are
+// separated by exactly one blank line.
+
+const isFilled = (value: string): boolean => value.trim().length > 0;
+
+// A table cell must stay on one line and must not contain an unescaped pipe.
+function cell(value: string): string {
+	return value
+		.replace(/\r\n|\r|\n/g, ' ')
+		.replace(/\|/g, '\\|')
+		.trim();
+}
+
+// Inline code span that survives backticks inside the command.
+function codeSpan(value: string): string {
+	const text = cell(value);
+	const longestRun = Math.max(0, ...(text.match(/`+/g) ?? []).map((run) => run.length));
+	const fence = '`'.repeat(longestRun + 1);
+	const pad = longestRun > 0 ? ' ' : '';
+	return `${fence}${pad}${text}${pad}${fence}`;
+}
+
 export function generateMarkdown(config: ProjectConfig, s: AppStrings): string {
 	const lines: string[] = [];
 
-	lines.push(`# ${config.projectName}`);
-	lines.push('');
-	lines.push(`## ${s.mdProjectOverview}`);
-	lines.push('');
-	if (config.description.length > 0) lines.push(config.description);
+	// Adds one blank line unless the previous line is already blank, so optional
+	// blocks never produce a run of blank lines.
+	const blank = () => {
+		if (lines.length > 0 && lines[lines.length - 1] !== '') lines.push('');
+	};
+	const section = (title: string) => {
+		blank();
+		lines.push(`## ${title}`);
+		blank();
+	};
+	const bullets = (title: string, items: string[]) => {
+		const filled = items.filter(isFilled);
+		if (filled.length === 0) return;
+		section(title);
+		for (const item of filled) lines.push(`- ${item.trim()}`);
+	};
 
-	if (config.techStack.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdTechStack}`);
-		lines.push('');
+	lines.push(`# ${config.projectName}`);
+	section(s.mdProjectOverview);
+	if (isFilled(config.description)) lines.push(config.description.trimEnd());
+
+	const techStack = config.techStack.filter(
+		(e) => isFilled(e.category) || isFilled(e.technology) || isFilled(e.versionOrNotes)
+	);
+	if (techStack.length > 0) {
+		section(s.mdTechStack);
 		lines.push(`| ${s.mdTechCategory} | ${s.mdTechTechnology} | ${s.mdTechVersionNotes} |`);
 		lines.push('|----------|------------|-----------------|');
-		for (const e of config.techStack) {
-			lines.push(`| ${e.category} | ${e.technology} | ${e.versionOrNotes} |`);
+		for (const e of techStack) {
+			lines.push(`| ${cell(e.category)} | ${cell(e.technology)} | ${cell(e.versionOrNotes)} |`);
 		}
 	}
 
-	if (config.setupCommands.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdSetupCommands}`);
-		lines.push('');
+	const setupCommands = config.setupCommands.filter((c) => isFilled(c.command));
+	if (setupCommands.length > 0) {
+		section(s.mdSetupCommands);
 		lines.push(`| ${s.mdSetupCommand} | ${s.mdSetupDescription} |`);
 		lines.push('|---------|-------------|');
-		for (const cmd of config.setupCommands) {
-			lines.push(`| \`${cmd.command}\` | ${cmd.description} |`);
+		for (const cmd of setupCommands) {
+			lines.push(`| ${codeSpan(cmd.command)} | ${cell(cmd.description)} |`);
 		}
 	}
 
-	if (config.coreFeatures.length > 0) {
-		lines.push('');
-		lines.push('');
-		lines.push(`## ${s.mdCoreFeatures}`);
-		lines.push('');
-		for (const f of config.coreFeatures) {
-			lines.push(`- ${f}`);
-		}
-	}
+	bullets(s.mdCoreFeatures, config.coreFeatures);
 
-	if (config.phases.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdPhases}`);
-		lines.push('');
-		config.phases.forEach((phase, i) => {
-			if (i > 0) lines.push('');
-			const heading =
-				phase.name.length > 0
-					? `${s.mdPhaseLabel} ${i + 1}: ${phase.name}`
-					: `${s.mdPhaseLabel} ${i + 1}`;
-			lines.push(`### ${heading}`);
-			lines.push('');
-			if (phase.description.length > 0) {
-				lines.push(phase.description);
-				lines.push('');
+	const phases = config.phases
+		.map((phase) => ({ ...phase, tasks: phase.tasks.filter(isFilled) }))
+		.filter(
+			(phase) => isFilled(phase.name) || isFilled(phase.description) || phase.tasks.length > 0
+		);
+	if (phases.length > 0) {
+		section(s.mdPhases);
+		phases.forEach((phase, i) => {
+			if (i > 0) blank();
+			const name = phase.name.trim();
+			lines.push(`### ${s.mdPhaseLabel} ${i + 1}${name.length > 0 ? `: ${name}` : ''}`);
+			blank();
+			if (isFilled(phase.description)) {
+				lines.push(phase.description.trim());
+				blank();
 			}
-			for (const task of phase.tasks) {
-				lines.push(`- ${task}`);
-			}
+			for (const task of phase.tasks) lines.push(`- ${task.trim()}`);
 		});
 	}
 
-	if (config.acceptanceCriteria.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdAcceptanceCriteria}`);
-		lines.push('');
-		for (const c of config.acceptanceCriteria) {
-			lines.push(`- ${c}`);
-		}
-	}
+	bullets(s.mdAcceptanceCriteria, config.acceptanceCriteria);
+	bullets(s.mdWhatToDo, config.whatToDo);
+	bullets(s.mdWhatNotToDo, config.whatNotToDo);
 
-	if (config.whatToDo.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdWhatToDo}`);
-		lines.push('');
-		for (const g of config.whatToDo) {
-			lines.push(`- ${g}`);
-		}
-	}
-
-	if (config.whatNotToDo.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdWhatNotToDo}`);
-		lines.push('');
-		for (const w of config.whatNotToDo) {
-			lines.push(`- ${w}`);
-		}
-	}
-
-	if (config.documentationReferences.length > 0) {
-		lines.push('');
-		lines.push(`## ${s.mdDocumentationReferences}`);
-		lines.push('');
-		for (const ref of config.documentationReferences) {
-			lines.push(`### ${ref.title}`);
-			lines.push('');
-			if (ref.description.length > 0) {
-				lines.push(ref.description);
-				lines.push('');
+	const refs = config.documentationReferences.filter((r) => isFilled(r.title) || isFilled(r.url));
+	if (refs.length > 0) {
+		section(s.mdDocumentationReferences);
+		for (const ref of refs) {
+			const url = ref.url.trim();
+			lines.push(`### ${isFilled(ref.title) ? ref.title.trim() : url}`);
+			blank();
+			if (isFilled(ref.description)) {
+				lines.push(ref.description.trim());
+				blank();
 			}
-			lines.push(`[${ref.url}](${ref.url})`);
-			lines.push('');
+			if (url.length > 0) {
+				lines.push(`[${url}](${url})`);
+				blank();
+			}
 		}
 	}
 

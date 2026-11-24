@@ -33,3 +33,6 @@ vite.config.ts.timestamp-*
 # Planning docs (local only)
 /tasks
 /SPEC.md
+
+# Legacy Bun binary lockfile (the repo uses bun.lock)
+bun.lockb

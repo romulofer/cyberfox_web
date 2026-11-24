@@ -31,4 +31,18 @@ describe('ProjectConfigStore', () => {
 		expect(s.projectName).toBe('');
 		expect(s.techStack).toEqual([]);
 	});
+
+	it('load ignores keys that are not part of the config', () => {
+		const s = new ProjectConfigStore();
+		const hostile = JSON.parse(
+			'{"__proto__":{"polluted":true},"config":5,"evil":1,"projectName":"Safe"}'
+		);
+		expect(() => s.load({ ...emptyConfig(), ...hostile })).not.toThrow();
+		expect(Object.getPrototypeOf(s)).toBe(ProjectConfigStore.prototype);
+		expect(s.projectName).toBe('Safe');
+		expect(s.config.projectName).toBe('Safe');
+		expect(s).not.toHaveProperty('evil');
+		s.reset();
+		expect(s.projectName).toBe('');
+	});
 });

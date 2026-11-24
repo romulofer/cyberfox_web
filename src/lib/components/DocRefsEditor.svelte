@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { focusAfterRemove } from './focusAfterRemove';
 	import type { DocumentationReference } from '$lib/core/models/types';
 	import type { AppStrings } from '$lib/core/i18n/strings';
 
@@ -18,8 +19,10 @@
 		rowInputs[items.length - 1]?.focus();
 	}
 
-	function remove(index: number) {
+	function remove(index: number, event: MouseEvent) {
+		const scope = (event.currentTarget as HTMLElement).closest('fieldset');
 		items = items.filter((_, i) => i !== index);
+		void focusAfterRemove(scope, '.entry', index, '.add');
 	}
 </script>
 
@@ -34,8 +37,11 @@
 					aria-label={strings.fieldDocTitle}
 					bind:this={rowInputs[i]}
 				/>
-				<button type="button" class="remove" onclick={() => remove(i)} aria-label="Remove"
-					>🗑️</button
+				<button
+					type="button"
+					class="remove"
+					onclick={(event) => remove(i, event)}
+					aria-label="Remove">🗑️</button
 				>
 			</div>
 			<input

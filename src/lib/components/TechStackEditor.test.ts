@@ -44,3 +44,27 @@ describe('TechStackEditor', () => {
 		expect(screen.queryByDisplayValue('Frontend')).not.toBeInTheDocument();
 	});
 });
+
+describe('TechStackEditor: focus after removing a row', () => {
+	const entries = [
+		{ category: 'a', technology: 'a', versionOrNotes: 'a' },
+		{ category: 'b', technology: 'b', versionOrNotes: 'b' }
+	];
+
+	it('focuses the first field of the row that took its place', async () => {
+		render(TechStackEditor, { props: { strings: en, items: structuredClone(entries) } });
+
+		await fireEvent.click(screen.getAllByRole('button', { name: 'Remove' })[0]);
+
+		expect(screen.getByLabelText('Category')).toHaveValue('b');
+		expect(screen.getByLabelText('Category')).toHaveFocus();
+	});
+
+	it('focuses the add button when the last row is removed', async () => {
+		render(TechStackEditor, { props: { strings: en, items: [entries[0]] } });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'Remove' }));
+
+		expect(screen.getByRole('button', { name: /Add/ })).toHaveFocus();
+	});
+});

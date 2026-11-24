@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { tick } from 'svelte';
+	import { focusAfterRemove } from './focusAfterRemove';
 	import type { ProjectPhase } from '$lib/core/models/types';
 	import type { AppStrings } from '$lib/core/i18n/strings';
 
@@ -18,16 +19,24 @@
 		nameInputs[items.length - 1]?.focus();
 	}
 
-	function remove(index: number) {
+	function remove(index: number, event: MouseEvent) {
+		const scope = (event.currentTarget as HTMLElement).closest('fieldset');
 		items = items.filter((_, i) => i !== index);
+		void focusAfterRemove(scope, '.phase', index, '.add');
 	}
 
 	function addTask(phaseIndex: number) {
-		items[phaseIndex].tasks = [...items[phaseIndex].tasks, ''];
+		items = items.map((phase, i) =>
+			i === phaseIndex ? { ...phase, tasks: [...phase.tasks, ''] } : phase
+		);
 	}
 
-	function removeTask(phaseIndex: number, taskIndex: number) {
-		items[phaseIndex].tasks = items[phaseIndex].tasks.filter((_, i) => i !== taskIndex);
+	function removeTask(phaseIndex: number, taskIndex: number, event: MouseEvent) {
+		const scope = (event.currentTarget as HTMLElement).closest('.phase');
+		items = items.map((phase, i) =>
+			i === phaseIndex ? { ...phase, tasks: phase.tasks.filter((_, j) => j !== taskIndex) } : phase
+		);
+		void focusAfterRemove(scope, '.tasks .row', taskIndex, '.add-task');
 	}
 </script>
 
@@ -45,7 +54,7 @@
 				<button
 					type="button"
 					class="remove"
-					onclick={() => remove(i)}
+					onclick={(event) => remove(i, event)}
 					aria-label={`${strings.sectionPhases} ${i + 1}`}>🗑️</button
 				>
 			</div>
@@ -65,7 +74,7 @@
 						<button
 							type="button"
 							class="remove"
-							onclick={() => removeTask(i, j)}
+							onclick={(event) => removeTask(i, j, event)}
 							aria-label="Remove">🗑️</button
 						>
 					</div>

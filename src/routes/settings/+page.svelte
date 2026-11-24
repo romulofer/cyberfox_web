@@ -8,20 +8,27 @@
 
 	let newName = $state('');
 	let newFilename = $state('');
+	let agentError = $state<'empty' | 'duplicate' | null>(null);
 
 	function addAgent() {
-		const name = newName.trim();
-		const filename = newFilename.trim();
-		if (!name || !filename) return;
-		settings.addCustomAgent({ name, filename });
-		newName = '';
-		newFilename = '';
+		const result = settings.addCustomAgent({ name: newName, filename: newFilename });
+		if (result === 'added') {
+			newName = '';
+			newFilename = '';
+			agentError = null;
+		} else {
+			agentError = result;
+		}
 	}
 </script>
 
 <div class="settings">
 	<a class="back" href={resolve('/')}>←</a>
 	<h1>{t.settingsTitle}</h1>
+
+	{#if settings.persistFailed}
+		<p class="error" role="alert" data-testid="settings-save-error">{t.settingsSaveError}</p>
+	{/if}
 
 	<section>
 		<h2>{t.settingsLanguage}</h2>
@@ -103,9 +110,16 @@
 				placeholder={t.hintAgentFilename}
 				aria-label={t.fieldAgentFilename}
 				data-testid="agent-filename-input"
+				aria-invalid={agentError === 'duplicate' ? 'true' : undefined}
+				aria-describedby={agentError ? 'agent-error' : undefined}
 			/>
 			<button type="submit" class="primary" data-testid="add-agent">➕ {t.add}</button>
 		</form>
+		{#if agentError}
+			<p id="agent-error" class="error" role="alert" data-testid="agent-error">
+				{agentError === 'empty' ? t.agentErrorEmpty : t.agentErrorDuplicate}
+			</p>
+		{/if}
 	</section>
 </div>
 
@@ -141,6 +155,10 @@
 		justify-content: space-between;
 		padding: 0.35rem 0;
 		border-bottom: 1px solid var(--border);
+	}
+	.error {
+		color: var(--danger, #b42318);
+		margin: 0.5rem 0 0;
 	}
 	.add-agent {
 		display: flex;

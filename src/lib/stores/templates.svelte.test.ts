@@ -7,6 +7,16 @@ describe('TemplatesStore', () => {
 		localStorage.clear();
 	});
 
+	it('drops malformed templates from the local cache on load', () => {
+		const good = { id: 'ok', section: 'whatToDo', name: 'Good', content: ['x'] };
+		localStorage.setItem(
+			'cyberfox_web.templates.v1',
+			JSON.stringify([good, null, { id: 'bad', section: 'techStack', name: 'Bad', content: 5 }])
+		);
+		const store = new TemplatesStore();
+		expect(store.items).toEqual([good]);
+	});
+
 	it('saves a template and lists it by section', () => {
 		const store = new TemplatesStore();
 		store.save('coreFeatures', 'Basics', ['Auth', 'Logging']);

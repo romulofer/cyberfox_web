@@ -37,7 +37,11 @@
 		</label>
 		{#if templatesEnabled}
 			<div class="desc-templates">
-				<ApplyTemplate section="description" onApply={(c) => projectConfig.applySection('description', c)} {strings} />
+				<ApplyTemplate
+					section="description"
+					onApply={(c) => projectConfig.applySection('description', c)}
+					{strings}
+				/>
 			</div>
 		{/if}
 		<label>
@@ -57,14 +61,22 @@
 	<div class="section">
 		<TechStackEditor bind:items={projectConfig.techStack} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="techStack" onApply={(c) => projectConfig.applySection('techStack', c)} {strings} />
+			<ApplyTemplate
+				section="techStack"
+				onApply={(c) => projectConfig.applySection('techStack', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
 	<div class="section">
 		<SetupCommandsEditor bind:items={projectConfig.setupCommands} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="setupCommands" onApply={(c) => projectConfig.applySection('setupCommands', c)} {strings} />
+			<ApplyTemplate
+				section="setupCommands"
+				onApply={(c) => projectConfig.applySection('setupCommands', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
@@ -76,14 +88,22 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="coreFeatures" onApply={(c) => projectConfig.applySection('coreFeatures', c)} {strings} />
+			<ApplyTemplate
+				section="coreFeatures"
+				onApply={(c) => projectConfig.applySection('coreFeatures', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
 	<div class="section">
 		<PhasesEditor bind:items={projectConfig.phases} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="phases" onApply={(c) => projectConfig.applySection('phases', c)} {strings} />
+			<ApplyTemplate
+				section="phases"
+				onApply={(c) => projectConfig.applySection('phases', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
@@ -95,7 +115,11 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="acceptanceCriteria" onApply={(c) => projectConfig.applySection('acceptanceCriteria', c)} {strings} />
+			<ApplyTemplate
+				section="acceptanceCriteria"
+				onApply={(c) => projectConfig.applySection('acceptanceCriteria', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
@@ -107,7 +131,11 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="whatToDo" onApply={(c) => projectConfig.applySection('whatToDo', c)} {strings} />
+			<ApplyTemplate
+				section="whatToDo"
+				onApply={(c) => projectConfig.applySection('whatToDo', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
@@ -119,14 +147,22 @@
 			addLabel={strings.add}
 		/>
 		{#if templatesEnabled}
-			<ApplyTemplate section="whatNotToDo" onApply={(c) => projectConfig.applySection('whatNotToDo', c)} {strings} />
+			<ApplyTemplate
+				section="whatNotToDo"
+				onApply={(c) => projectConfig.applySection('whatNotToDo', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 
 	<div class="section">
 		<DocRefsEditor bind:items={projectConfig.documentationReferences} {strings} />
 		{#if templatesEnabled}
-			<ApplyTemplate section="documentationReferences" onApply={(c) => projectConfig.applySection('documentationReferences', c)} {strings} />
+			<ApplyTemplate
+				section="documentationReferences"
+				onApply={(c) => projectConfig.applySection('documentationReferences', c)}
+				{strings}
+			/>
 		{/if}
 	</div>
 </form>

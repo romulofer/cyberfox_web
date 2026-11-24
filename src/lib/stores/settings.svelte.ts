@@ -1,6 +1,7 @@
 import type { AiTarget } from '../core/models/types';
 import type { Language } from '../core/i18n/strings';
 import { builtInAgents } from '../core/agents/builtInAgents';
+import { agentFilenameKey, parseSettings } from '../core/models/schema';
 
 export type Theme = 'light' | 'dark';
 
@@ -17,7 +18,7 @@ function loadPersisted(): Partial<Persisted> {
 	if (!canStore) return {};
 	try {
 		const raw = localStorage.getItem(STORAGE_KEY);
-		return raw ? (JSON.parse(raw) as Partial<Persisted>) : {};
+		return raw ? parseSettings(JSON.parse(raw)) : {};
 	} catch {
 		return {};
 	}
@@ -27,12 +28,15 @@ export class SettingsStore {
 	language = $state<Language>('ptBR');
 	theme = $state<Theme>('light');
 	customAgents = $state<AiTarget[]>([]);
+	// True when the last write to localStorage failed (quota, private mode). Settings
+	// keep working in memory for the current session.
+	persistFailed = $state(false);
 
 	constructor() {
 		const p = loadPersisted();
 		if (p.language) this.language = p.language;
 		if (p.theme) this.theme = p.theme;
-		if (Array.isArray(p.customAgents)) this.customAgents = p.customAgents;
+		if (p.customAgents) this.customAgents = p.customAgents;
 	}
 
 	get allAgents(): AiTarget[] {
@@ -57,9 +61,18 @@ export class SettingsStore {
 		this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
 	}
 
-	addCustomAgent(agent: AiTarget) {
-		this.customAgents = [...this.customAgents, agent];
+	// Returns why an agent was not added, so the caller can tell the user.
+	addCustomAgent(agent: AiTarget): 'added' | 'empty' | 'duplicate' {
+		const name = agent.name.trim();
+		const filename = agent.filename.trim();
+		if (!name || !filename) return 'empty';
+		const key = agentFilenameKey(filename);
+		if (this.allAgents.some((existing) => agentFilenameKey(existing.filename) === key)) {
+			return 'duplicate';
+		}
+		this.customAgents = [...this.customAgents, { name, filename }];
 		this.persist();
+		return 'added';
 	}
 
 	removeCustomAgent(agent: AiTarget) {
@@ -76,7 +89,12 @@ export class SettingsStore {
 			theme: this.theme,
 			customAgents: this.customAgents
 		};
-		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+		try {
+			localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+			this.persistFailed = false;
+		} catch {
+			this.persistFailed = true;
+		}
 	}
 }
 

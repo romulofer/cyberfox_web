@@ -59,6 +59,41 @@ test.describe('home: form and live preview', () => {
 		expect(clipboard).toContain('# Copied Project');
 	});
 
+	test('copy still works when the Clipboard API is unavailable (plain HTTP)', async ({ page }) => {
+		await page.addInitScript(() => {
+			Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+			document.execCommand = () => {
+				(window as unknown as { __copied: string }).__copied = (
+					document.activeElement as HTMLTextAreaElement
+				).value;
+				return true;
+			};
+		});
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('Over HTTP');
+
+		await page.getByTestId('copy').click();
+
+		await expect(page.getByTestId('copy')).toContainText('Copied');
+		expect(
+			await page.evaluate(() => (window as unknown as { __copied: string }).__copied)
+		).toContain('# Over HTTP');
+	});
+
+	test('copy shows an error when no clipboard strategy works', async ({ page }) => {
+		await page.addInitScript(() => {
+			Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true });
+			document.execCommand = () => false;
+		});
+		await page.goto('/');
+		await page.getByTestId('project-name').fill('No clipboard');
+
+		await page.getByTestId('copy').click();
+
+		await expect(page.getByTestId('copy-error')).toBeVisible();
+		await expect(page.getByTestId('download')).toBeEnabled();
+	});
+
 	test('config round-trips through a shareable URL', async ({ page, context }) => {
 		await page.goto('/');
 		await page.getByTestId('project-name').fill('Shared Project');
