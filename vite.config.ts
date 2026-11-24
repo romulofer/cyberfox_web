@@ -23,7 +23,11 @@ export default defineConfig({
 	// In production nginx proxies /api; on GitHub Pages the feature is disabled.
 	server: {
 		proxy: {
-			'/api': 'http://localhost:8787'
+			// nginx strips the /api prefix in production; do the same here.
+			'/api': {
+				target: 'http://localhost:8787',
+				rewrite: (path) => path.replace(/^\/api/, '')
+			}
 		}
 	},
 	// Under Vitest, resolve Svelte's client build instead of its SSR build so
